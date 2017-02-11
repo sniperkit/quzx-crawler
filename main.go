@@ -3,12 +3,12 @@ package main
 import (
 
 	_ "github.com/lib/pq"
-	"../cowl-go/db_layer"
 
 	"time"
 	"strconv"
 	"log"
-	"../cowl-go/stackoverflow"
+	"github.com/demas/cowl-go/stackoverflow"
+	"github.com/demas/cowl-go/db_layer"
 )
 
 func main() {

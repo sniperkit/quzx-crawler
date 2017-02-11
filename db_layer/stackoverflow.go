@@ -1,8 +1,8 @@
 package db_layer
 
 import (
-	"../stackoverflow"
-	"../classificator"
+	"github.com/demas/cowl-go/stackoverflow"
+	"github.com/demas/cowl-go/classificator"
 	"strings"
 	"log"
 	"fmt"

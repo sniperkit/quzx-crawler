@@ -1,6 +1,8 @@
 package classificator
 
-import "../stackoverflow"
+import (
+	"github.com/demas/cowl-go/stackoverflow"
+)
 
 func contains(s []string, e string) bool {
 	for _, a := range s {
