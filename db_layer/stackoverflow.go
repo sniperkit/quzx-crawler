@@ -24,11 +24,11 @@ func Insert_so_Questions(questions []stackoverflow.SOQuestion) {
 		if id == 0 {
 			_, err = tx.Exec("INSERT INTO stackquestions(" +
 				"title, link, questionid, tags, score, answercount, viewcount, userid, userreputation, " +
-				"userdisplayname, userprofileimage, classification, details) " +
-				"VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)",
+				"userdisplayname, userprofileimage, classification, details, creationdate, readed) " +
+				"VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)",
 				q.Title, q.Link, q.Question_id, strings.Join(q.Tags[:], ","), q.Score, q.Answer_count, q.View_count,
 				q.Owner.User_id, q.Owner.Reputation, q.Owner.Display_name, q.Owner.Profile_image,
-				classification, details)
+				classification, details, q.Creation_date, 0)
 
 			if err != nil {
 				log.Fatal(err)
