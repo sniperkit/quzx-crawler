@@ -13,14 +13,19 @@ func Fetch() {
 	db_feeds := db_layer.GetFeeds()
 	for _, db_feed := range db_feeds {
 
-		f, err := rss.Fetch(db_feed.Link)
-		if err != nil {
-			log.Println(err)
-		}
-		db_layer.UpdateFeed(db_feed.Id, f, time.Now().Unix())
+		if db_feed.LastSyncTime + int64(db_feed.SyncInterval) < time.Now().Unix() {
 
-		for _, item := range f.Items {
-			db_layer.InsertRssItem(db_feed.Id, item)
+			log.Println("fetch rss: " + db_feed.Link)
+			f, err := rss.Fetch(db_feed.Link)
+
+			if err != nil {
+				log.Println(err)
+			}
+			db_layer.UpdateFeed(db_feed.Id, f, time.Now().Unix())
+
+			for _, item := range f.Items {
+				db_layer.InsertRssItem(db_feed.Id, item)
+			}
 		}
 	}
 }

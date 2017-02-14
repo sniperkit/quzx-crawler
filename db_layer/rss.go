@@ -17,9 +17,10 @@ type RssFeed struct {
 	ImageUrl sql.NullString
 	ImageHeight sql.NullInt64
 	ImageWidth sql.NullInt64
-	LastSyncTime sql.NullInt64
+	LastSyncTime int64
 	Total sql.NullInt64
 	Readed sql.NullInt64
+	SyncInterval int
 }
 
 type RssItem struct {
