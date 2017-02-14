@@ -1,14 +1,14 @@
 package db_layer
 
 import (
-	"github.com/demas/cowl-go/stackoverflow"
+	"github.com/demas/cowl-go/types"
 	"github.com/demas/cowl-go/classificator"
 	"strings"
 	"log"
 	"fmt"
 )
 
-func Insert_so_Questions(questions []stackoverflow.SOQuestion) {
+func Insert_so_Questions(questions []types.SOQuestion) {
 
 	tx := db.MustBegin()
 	for _, q := range questions {

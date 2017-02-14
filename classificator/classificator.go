@@ -1,8 +1,6 @@
 package classificator
 
-import (
-	"github.com/demas/cowl-go/stackoverflow"
-)
+import "github.com/demas/cowl-go/types"
 
 func contains(s []string, e string) bool {
 	for _, a := range s {
@@ -13,7 +11,7 @@ func contains(s []string, e string) bool {
 	return false
 }
 
-func Classify(question stackoverflow.SOQuestion) (classification string, details string) {
+func Classify(question types.SOQuestion) (classification string, details string) {
 
 	if contains(question.Tags, "clojure") {
 		return "clojure", ""
@@ -27,3 +25,4 @@ func Classify(question stackoverflow.SOQuestion) (classification string, details
 		return "", ""
 	}
 }
+

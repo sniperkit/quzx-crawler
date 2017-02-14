@@ -1,4 +1,4 @@
-package stackoverflow
+package types
 
 type SOUser struct {
 	Reputation int
@@ -30,4 +30,3 @@ type SOResponse struct {
 	Quota_max int
 	Quota_remaining int
 }
-
