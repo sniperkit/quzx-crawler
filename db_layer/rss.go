@@ -21,6 +21,7 @@ type RssFeed struct {
 	Total sql.NullInt64
 	Readed sql.NullInt64
 	SyncInterval int
+	AlternativeName string
 }
 
 type RssItem struct {
