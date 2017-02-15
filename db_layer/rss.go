@@ -19,7 +19,7 @@ type RssFeed struct {
 	ImageWidth sql.NullInt64
 	LastSyncTime int64
 	Total sql.NullInt64
-	Readed sql.NullInt64
+	Unreaded sql.NullInt64
 	SyncInterval int
 	AlternativeName string
 }
