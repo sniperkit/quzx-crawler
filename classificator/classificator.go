@@ -13,14 +13,18 @@ func contains(s []string, e string) bool {
 
 func Classify(question types.SOQuestion) (classification string, details string) {
 
-	if contains(question.Tags, "clojure") {
+	if contains(question.Tags, "azure") {
+		return "azure", ""
+	} else if contains(question.Tags, "postgresql") {
+		return "postgresql", ""
+	} else if contains(question.Tags, "clojure") {
 		return "clojure", ""
 	} else if contains(question.Tags, "go") {
 		return "go", ""
+	} else if contains(question.Tags, "angular2") {
+		return "angular2", ""
 	} else if contains(question.Tags, "python") {
 		return "python", ""
-	} else if contains(question.Tags, "azure") {
-		return "azure", ""
 	} else {
 		return "", ""
 	}
