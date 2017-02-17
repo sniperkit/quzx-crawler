@@ -31,11 +31,12 @@ func Fetch() {
 
 			if err != nil {
 				log.Println(err)
-			}
-			db_layer.UpdateFeed(db_feed.Id, f, time.Now().Unix())
+			} else {
+				db_layer.UpdateFeed(db_feed.Id, f, time.Now().Unix())
 
-			for _, item := range f.Items {
-				db_layer.InsertRssItem(db_feed.Id, item)
+				for _, item := range f.Items {
+					db_layer.InsertRssItem(db_feed.Id, item)
+				}
 			}
 		}
 	}

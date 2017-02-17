@@ -31,11 +31,12 @@ func Fetch() {
 
 			if err != nil {
 				log.Println(err)
-			}
-			db_layer.UpdateReddit(db_reddit.Id, f, time.Now().Unix())
+			} else {
+				db_layer.UpdateReddit(db_reddit.Id, f, time.Now().Unix())
 
-			for _, item := range f.Items {
-				db_layer.InsertRedditItem(db_reddit.Id, item)
+				for _, item := range f.Items {
+					db_layer.InsertRedditItem(db_reddit.Id, item)
+				}
 			}
 		}
 	}
