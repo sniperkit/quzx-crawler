@@ -23,6 +23,7 @@ type RssFeed struct {
 	SyncInterval int
 	AlternativeName string
 	RssType int
+	ShowContent int
 }
 
 type RssItem struct {
