@@ -25,7 +25,7 @@ func key() string {
 	}
 }
 
-func getNewMassages(fromTime int64) []types.SOQuestion {
+func getNewMassages(fromTime int64, site string) []types.SOQuestion {
 
 	var result []types.SOQuestion
 	page := 1
@@ -34,8 +34,8 @@ func getNewMassages(fromTime int64) []types.SOQuestion {
 	for has_more {
 
 		url := fmt.Sprintf(
-			"https://api.stackexchange.com/2.2/questions?page=%d&pagesize=100&fromdate=%d&order=asc&sort=creation&site=stackoverflow%s",
-			page, fromTime, key())
+			"https://api.stackexchange.com/2.2/questions?page=%d&pagesize=100&fromdate=%d&order=asc&sort=creation&site=%s%s",
+			page, fromTime, site, key())
 
 		fmt.Println(url)
 
@@ -69,6 +69,7 @@ func Fetch() {
 
 	var lastSyncTime int64
 	var err error
+	var sites = [2]string{ "stackoverflow", "security" }
 
 	lastSyncTimeStr := db_layer.GetSettings("lastStackSyncTime")
 	if lastSyncTimeStr == "" {
@@ -82,8 +83,10 @@ func Fetch() {
 
 	currentTime := time.Now().Unix()
 
-	res := getNewMassages(lastSyncTime)
-	db_layer.Insert_so_Questions(res)
+	for _, site := range sites {
+		res := getNewMassages(lastSyncTime, site)
+		db_layer.Insert_so_Questions(res, site)
+	}
 
 	db_layer.SetSettings("lastStackSyncTime",  strconv.FormatInt(currentTime, 10))
 }

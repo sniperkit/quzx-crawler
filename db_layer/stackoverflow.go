@@ -8,12 +8,12 @@ import (
 	"fmt"
 )
 
-func Insert_so_Questions(questions []types.SOQuestion) {
+func Insert_so_Questions(questions []types.SOQuestion, site string) {
 
 	tx := db.MustBegin()
 	for _, q := range questions {
 
-		classification, details := classificator.Classify(q)
+		classification, details := classificator.Classify(q, site)
 
 		var id int
 		err := db.Get(&id, fmt.Sprintf("SELECT count(*) FROM StackQuestions WHERE QuestionId = '%d'", q.Question_id))
