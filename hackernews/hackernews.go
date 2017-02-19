@@ -8,12 +8,34 @@ import (
 	"github.com/demas/cowl-go/types"
 	"encoding/json"
 	"github.com/demas/cowl-go/db_layer"
+	"time"
+	"strconv"
 )
 
 func GetNews() {
 
 	idsUrl := "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
 	newsUrl := "https://hacker-news.firebaseio.com/v0/item/%d.json?print=pretty"
+
+	var syncInterval int64 = 60 * 30
+	var lastSyncTime int64
+	var err error
+
+	lastSyncTimeStr := db_layer.GetSettings("lastHackerNewsSyncTime")
+	if lastSyncTimeStr == "" {
+		lastSyncTime = time.Now().Unix() - syncInterval - 1
+	} else {
+		lastSyncTime, err = strconv.ParseInt(lastSyncTimeStr, 10, 64)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	currentTime := time.Now().Unix()
+
+	if lastSyncTime + syncInterval > currentTime {
+		return
+	}
 
 	res, err := http.Get(idsUrl)
 	if err != nil {
@@ -56,4 +78,6 @@ func GetNews() {
 			}
 		}
 	}
+
+	db_layer.SetSettings("lastHackerNewsSyncTime",  strconv.FormatInt(currentTime, 10))
 }
