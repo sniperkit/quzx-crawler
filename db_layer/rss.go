@@ -24,6 +24,7 @@ type RssFeed struct {
 	AlternativeName string
 	RssType int
 	ShowContent int
+	ShowOrder int
 }
 
 type RssItem struct {
