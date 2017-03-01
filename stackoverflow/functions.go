@@ -69,7 +69,7 @@ func Fetch() {
 
 	var lastSyncTime int64
 	var err error
-	var sites = [2]string{ "stackoverflow", "security" }
+	var sites = [3]string{ "stackoverflow", "security", "codereview" }
 
 	lastSyncTimeStr := db_layer.GetSettings("lastStackSyncTime")
 	if lastSyncTimeStr == "" {

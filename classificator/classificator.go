@@ -31,6 +31,8 @@ func Classify(question types.SOQuestion, site string) (classification string, de
 		}
 	} else if site == "security" {
 		return "information security", ""
+	} else if site == "codereview" {
+		return "code review", ""
 	} else {
 		return "", ""
 	}
