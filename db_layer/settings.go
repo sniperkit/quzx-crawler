@@ -4,6 +4,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"log"
 	"fmt"
+	"os"
 )
 
 var db *sqlx.DB
@@ -11,7 +12,9 @@ var db *sqlx.DB
 func init() {
 	var err error
 
-	db, err = sqlx.Open("postgres", "user=demas password=root host=192.168.1.71 port=5432 dbname=news sslmode=disable")
+	db, err = sqlx.Open("postgres", "user=" + os.Getenv("DBUSER") +
+		" password=" + os.Getenv("DBPASS") + " host=" + os.Getenv("DHBOST") +
+		" port=" + os.Getenv("DBPORT") + " dbname=" + os.Getenv("DBNAME") + " sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
