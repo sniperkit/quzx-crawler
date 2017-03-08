@@ -15,6 +15,10 @@ import (
 
 func main() {
 
+	// wait 1 minute to start postgresql
+	timer := time.NewTimer(time.Minute * 1)
+	<- timer.C
+
 	syncInterval, err := strconv.Atoi(os.Getenv("SYNCINTERVAL"))
 	if err != nil {
 		log.Println("SYNCINTERVAL was not defined")
