@@ -31,7 +31,7 @@ func getNewMassages(fromTime int64, site string) []types.SOQuestion {
 	page := 1
 	has_more := true
 
-	for has_more {
+	for has_more && page <= 50 {
 
 		url := fmt.Sprintf(
 			"https://api.stackexchange.com/2.2/questions?page=%d&pagesize=100&fromdate=%d&order=asc&sort=creation&site=%s%s",
