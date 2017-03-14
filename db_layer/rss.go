@@ -26,6 +26,8 @@ type RssFeed struct {
 	ShowContent int
 	ShowOrder int
 	Folder string
+	LimitFull int
+	LimitHeadersOnly int
 }
 
 type RssItem struct {
