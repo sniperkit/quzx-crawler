@@ -24,8 +24,16 @@ func Classify(question types.SOQuestion, site string) (classification string, de
 			return "go", ""
 		} else if contains(question.Tags, "angular2") {
 			return "angular2", ""
+		} else if contains(question.Tags, "git") {
+			return "git", ""
+		} else if contains(question.Tags, "docker") {
+			return "docker", ""
+		} else if contains(question.Tags, "typescript") {
+			return "typescript", ""
 		} else if contains(question.Tags, "python") {
 			return "python", ""
+		} else if contains(question.Tags, "sql-server") {
+			return "ms sql server", ""
 		} else {
 			return "", ""
 		}
