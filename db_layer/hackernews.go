@@ -3,7 +3,7 @@ package db_layer
 import (
 	"fmt"
 	"log"
-	"github.com/demas/cowl-go/types"
+	"github.com/demas/cowl-go/pkg/quzx-crawler"
 )
 
 func NewsDoesntExists(id int64) bool {
@@ -17,7 +17,7 @@ func NewsDoesntExists(id int64) bool {
 	return cnt == 0
 }
 
-func InsertNews(n types.HackerNews) {
+func InsertNews(n quzx_crawler.HackerNews) {
 
 	tx := db.MustBegin()
 	_, err := tx.Exec("INSERT INTO HackerNews(" +

@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"os"
 	"github.com/demas/cowl-go/db_layer"
-	"github.com/demas/cowl-go/types"
+	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"time"
 	"strconv"
 
@@ -25,9 +25,9 @@ func key() string {
 	}
 }
 
-func getNewMassages(fromTime int64, site string) []types.SOQuestion {
+func getNewMassages(fromTime int64, site string) []quzx_crawler.SOQuestion {
 
-	var result []types.SOQuestion
+	var result []quzx_crawler.SOQuestion
 	page := 1
 	has_more := true
 
@@ -50,7 +50,7 @@ func getNewMassages(fromTime int64, site string) []types.SOQuestion {
 		}
 
 		// decode
-		var p types.SOResponse
+		var p quzx_crawler.SOResponse
 
 		err = json.Unmarshal(jsn, &p)
 		if err != nil {

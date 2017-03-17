@@ -1,4 +1,4 @@
-package types
+package quzx_crawler
 
 type SOUser struct {
 	Reputation int
@@ -29,4 +29,15 @@ type SOResponse struct {
 	Has_more bool
 	Quota_max int
 	Quota_remaining int
+}
+
+type HackerNews struct {
+	Id int64
+	By string
+	Score int
+	Time int64
+	Title string
+	Type string
+	Url string
+	Readed int
 }

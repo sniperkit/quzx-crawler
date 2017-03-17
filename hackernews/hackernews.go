@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"log"
 	"io/ioutil"
-	"github.com/demas/cowl-go/types"
+	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"encoding/json"
 	"github.com/demas/cowl-go/db_layer"
 	"time"
@@ -68,7 +68,7 @@ func GetNews() {
 				}
 
 				// decode
-				var news types.HackerNews
+				var news quzx_crawler.HackerNews
 				err = json.Unmarshal(jsn, &news)
 				if err != nil {
 					log.Fatal(err)

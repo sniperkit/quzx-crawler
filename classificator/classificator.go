@@ -1,6 +1,6 @@
 package classificator
 
-import "github.com/demas/cowl-go/types"
+import "github.com/demas/cowl-go/pkg/quzx-crawler"
 
 func contains(s []string, e string) bool {
 	for _, a := range s {
@@ -11,7 +11,7 @@ func contains(s []string, e string) bool {
 	return false
 }
 
-func Classify(question types.SOQuestion, site string) (classification string, details string) {
+func Classify(question quzx_crawler.SOQuestion, site string) (classification string, details string) {
 
 	if site == "stackoverflow" {
 		if contains(question.Tags, "azure") {

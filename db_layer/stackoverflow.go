@@ -1,14 +1,14 @@
 package db_layer
 
 import (
-	"github.com/demas/cowl-go/types"
+	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"github.com/demas/cowl-go/classificator"
 	"strings"
 	"log"
 	"fmt"
 )
 
-func Insert_so_Questions(questions []types.SOQuestion, site string) {
+func Insert_so_Questions(questions []quzx_crawler.SOQuestion, site string) {
 
 	tx := db.MustBegin()
 	for _, q := range questions {
