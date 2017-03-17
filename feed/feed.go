@@ -31,6 +31,7 @@ func Fetch() {
 
 			if err != nil {
 				log.Println(err)
+				db_layer.UpdateFeedAsBroken(db_feed.Id)
 			} else {
 				db_layer.UpdateFeed(db_feed.Id, f, time.Now().Unix())
 
