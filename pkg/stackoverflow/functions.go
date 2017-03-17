@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"os"
-	"github.com/demas/cowl-go/pkg/db_layer"
+	"github.com/demas/cowl-go/pkg/postgres"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"time"
 	"strconv"
