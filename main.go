@@ -4,13 +4,14 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/demas/cowl-go/pkg/hackernews"
-	"github.com/demas/cowl-go/pkg/stackoverflow"
-	"github.com/demas/cowl-go/pkg/feed"
 	"time"
 	"os"
 	"strconv"
 	"log"
+
+	"github.com/demas/cowl-go/pkg/services/hackernews"
+	"github.com/demas/cowl-go/pkg/services/stackoverflow"
+	"github.com/demas/cowl-go/pkg/services/rss"
 )
 
 func main() {
@@ -26,7 +27,7 @@ func main() {
 	} else {
 		for {
 			stackoverflow.Fetch()
-			feed.Fetch()
+			rssfeeds.Fetch()
 			hackernews.GetNews()
 
 			timer := time.NewTimer(time.Minute * time.Duration(syncInterval))

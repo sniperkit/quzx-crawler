@@ -1,4 +1,4 @@
-package feed
+package rssfeeds
 
 import (
 	"github.com/demas/cowl-go/pkg/postgres"
