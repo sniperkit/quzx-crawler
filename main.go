@@ -4,9 +4,9 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/demas/cowl-go/hackernews"
-	"github.com/demas/cowl-go/stackoverflow"
-	"github.com/demas/cowl-go/feed"
+	"github.com/demas/cowl-go/pkg/hackernews"
+	"github.com/demas/cowl-go/pkg/stackoverflow"
+	"github.com/demas/cowl-go/pkg/feed"
 	"time"
 	"os"
 	"strconv"

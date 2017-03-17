@@ -1,7 +1,7 @@
 package feed
 
 import (
-	"github.com/demas/cowl-go/db_layer"
+	"github.com/demas/cowl-go/pkg/db_layer"
 	"github.com/SlyMarbo/rss"
 
 	"log"

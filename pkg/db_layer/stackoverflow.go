@@ -2,7 +2,7 @@ package db_layer
 
 import (
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
-	"github.com/demas/cowl-go/classificator"
+	"github.com/demas/cowl-go/pkg/classificator"
 	"strings"
 	"log"
 	"fmt"
