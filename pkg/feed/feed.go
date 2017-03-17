@@ -21,7 +21,7 @@ func fetchFunc(url string) (resp *http.Response, err error) {
 
 func Fetch() {
 
-	db_feeds := db_layer.GetFeeds()
+	db_feeds := postgres.GetFeeds()
 	for _, db_feed := range db_feeds {
 
 		if db_feed.LastSyncTime + int64(db_feed.SyncInterval) < time.Now().Unix() {
@@ -31,12 +31,12 @@ func Fetch() {
 
 			if err != nil {
 				log.Println(err)
-				db_layer.UpdateFeedAsBroken(db_feed.Id)
+				postgres.UpdateFeedAsBroken(db_feed.Id)
 			} else {
-				db_layer.UpdateFeed(db_feed.Id, f, time.Now().Unix())
+				postgres.UpdateFeed(db_feed.Id, f, time.Now().Unix())
 
 				for _, item := range f.Items {
-					db_layer.InsertRssItem(db_feed.Id, item)
+					postgres.InsertRssItem(db_feed.Id, item)
 				}
 			}
 		}

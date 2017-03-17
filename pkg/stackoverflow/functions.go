@@ -71,7 +71,7 @@ func Fetch() {
 	var err error
 	var sites = [3]string{ "stackoverflow", "security", "codereview" }
 
-	lastSyncTimeStr := db_layer.GetSettings("lastStackSyncTime")
+	lastSyncTimeStr := postgres.GetSettings("lastStackSyncTime")
 	if lastSyncTimeStr == "" {
 		lastSyncTime = time.Now().Unix() - 2000
 	} else {
@@ -85,9 +85,9 @@ func Fetch() {
 
 	for _, site := range sites {
 		res := getNewMassages(lastSyncTime, site)
-		db_layer.Insert_so_Questions(res, site)
+		postgres.Insert_so_Questions(res, site)
 	}
 
-	db_layer.SetSettings("lastStackSyncTime",  strconv.FormatInt(currentTime, 10))
+	postgres.SetSettings("lastStackSyncTime",  strconv.FormatInt(currentTime, 10))
 }
 

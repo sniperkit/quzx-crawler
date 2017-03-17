@@ -1,4 +1,4 @@
-package db_layer
+package postgres
 
 import (
 	"log"

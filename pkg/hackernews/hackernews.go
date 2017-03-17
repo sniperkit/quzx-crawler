@@ -21,7 +21,7 @@ func GetNews() {
 	var lastSyncTime int64
 	var err error
 
-	lastSyncTimeStr := db_layer.GetSettings("lastHackerNewsSyncTime")
+	lastSyncTimeStr := postgres.GetSettings("lastHackerNewsSyncTime")
 	if lastSyncTimeStr == "" {
 		lastSyncTime = time.Now().Unix() - syncInterval - 1
 	} else {
@@ -55,7 +55,7 @@ func GetNews() {
 	} else {
 		for _, id := range ids {
 
-			if db_layer.NewsDoesntExists(id) {
+			if postgres.NewsDoesntExists(id) {
 				log.Println("hacker news: " + fmt.Sprintf(newsUrl, id))
 				res, err := http.Get(fmt.Sprintf(newsUrl, id))
 				if err != nil {
@@ -73,11 +73,11 @@ func GetNews() {
 				if err != nil {
 					log.Fatal(err)
 				} else {
-					db_layer.InsertNews(news)
+					postgres.InsertNews(news)
 				}
 			}
 		}
 	}
 
-	db_layer.SetSettings("lastHackerNewsSyncTime",  strconv.FormatInt(currentTime, 10))
+	postgres.SetSettings("lastHackerNewsSyncTime",  strconv.FormatInt(currentTime, 10))
 }
