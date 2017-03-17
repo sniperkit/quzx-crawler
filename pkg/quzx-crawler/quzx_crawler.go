@@ -1,5 +1,43 @@
 package quzx_crawler
 
+import "database/sql"
+
+type RssFeed struct {
+	Id int
+	Title sql.NullString
+	Description sql.NullString
+	Link string
+	UpdateUrl sql.NullString
+	ImageTitle sql.NullString
+	ImageUrl sql.NullString
+	ImageHeight sql.NullInt64
+	ImageWidth sql.NullInt64
+	LastSyncTime int64
+	Total sql.NullInt64
+	Unreaded sql.NullInt64
+	SyncInterval int
+	AlternativeName string
+	RssType int
+	ShowContent int
+	ShowOrder int
+	Folder string
+	LimitFull int
+	LimitHeadersOnly int
+	Broken int
+}
+
+type RssItem struct {
+	Id int
+	FeedId int
+	Title string
+	Summary string
+	Content string
+	Link string
+	Date int64
+	ItemId string
+	Readed int
+}
+
 type SOUser struct {
 	Reputation int
 	User_id int

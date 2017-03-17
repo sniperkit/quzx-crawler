@@ -2,50 +2,14 @@ package db_layer
 
 import (
 	"log"
-	"database/sql"
 	"github.com/SlyMarbo/rss"
+	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"fmt"
 )
 
-type RssFeed struct {
-	Id int
-	Title sql.NullString
-	Description sql.NullString
-	Link string
-	UpdateUrl sql.NullString
-	ImageTitle sql.NullString
-	ImageUrl sql.NullString
-	ImageHeight sql.NullInt64
-	ImageWidth sql.NullInt64
-	LastSyncTime int64
-	Total sql.NullInt64
-	Unreaded sql.NullInt64
-	SyncInterval int
-	AlternativeName string
-	RssType int
-	ShowContent int
-	ShowOrder int
-	Folder string
-	LimitFull int
-	LimitHeadersOnly int
-	Broken int
-}
+func GetFeeds() []quzx_crawler.RssFeed {
 
-type RssItem struct {
-	Id int
-	FeedId int
-	Title string
-	Summary string
-	Content string
-	Link string
-	Date int64
-	ItemId string
-	Readed int
-}
-
-func GetFeeds() []RssFeed {
-
-	feeds := []RssFeed{}
+	feeds := []quzx_crawler.RssFeed{}
 
 	err := db.Select(&feeds, "SELECT * FROM RssFeed")
 	if err != nil {
@@ -74,7 +38,7 @@ func UpdateFeedAsBroken(id int) {
 
 func InsertRssItem(feed_id int, i *rss.Item) {
 
-	items := []RssItem{}
+	items := []quzx_crawler.RssItem{}
 
 	err := db.Select(&items, fmt.Sprintf("SELECT * FROM RssItem WHERE FeedId = %d AND Link = '%s'", feed_id, i.Link))
 	if err != nil {
