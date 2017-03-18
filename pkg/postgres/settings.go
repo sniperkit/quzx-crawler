@@ -7,8 +7,12 @@ import (
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
 )
 
+// represent a PostgreSQL implementation of quzx_crawler.SettingsRepository
+type SettingsRepository struct {
+}
+
 // GetSettings : return settings from database by key
-func GetSettings(key string) string {
+func (r *SettingsRepository) GetSettings(key string) string {
 
 	settings := quzx_crawler.Settings{}
 	query := fmt.Sprintf("SELECT * FROM Settings WHERE Name = '%s' LIMIT 1", key)
@@ -22,7 +26,7 @@ func GetSettings(key string) string {
 }
 
 // SetSettings : put setting to database
-func SetSettings(key string, value string) {
+func (r *SettingsRepository) SetSettings(key string, value string) {
 
 	query := `INSERT INTO Settings(Name, Value) VALUES($1, $2)
 			  ON CONFLICT (Name) DO Update SET Value = Excluded.Value`

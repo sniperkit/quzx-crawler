@@ -5,7 +5,11 @@ import (
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
 )
 
-func NewsExists(id int64) bool {
+// represent a PostgreSQL implementation of quzx_crawler.HackerNewsService
+type HackerNewsRepository struct {
+}
+
+func (r *HackerNewsRepository) NewsExists(id int64) bool {
 
 	var cnt int
 	err := db.Get(&cnt, "SELECT count(*) FROM HackerNews WHERE Id = $1", id)
@@ -17,7 +21,7 @@ func NewsExists(id int64) bool {
 	return cnt != 0
 }
 
-func InsertNews(n quzx_crawler.HackerNews) {
+func (r *HackerNewsRepository) InsertNews(n quzx_crawler.HackerNews) {
 
 	tx := db.MustBegin()
 

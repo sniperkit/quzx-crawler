@@ -8,8 +8,12 @@ import (
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
 )
 
+// represent a PostgreSQL implementation of quzx_crawler.StackOverflowRepository
+type StackOverflowRepository struct {
+}
+
 // InsertSOQuestions : insert StackOverflow questions in database
-func InsertSOQuestions(questions []quzx_crawler.SOQuestion, site string) {
+func (r *StackOverflowRepository) InsertSOQuestions(questions []quzx_crawler.SOQuestion, site string) {
 
 	tx := db.MustBegin()
 	for _, q := range questions {

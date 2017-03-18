@@ -6,7 +6,12 @@ import (
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
 )
 
-func GetFeeds() []quzx_crawler.RssFeed {
+// represent a PostgreSQL implementation of quzx_crawler.RssFeedRepository
+type RssFeedRepository struct {
+}
+
+
+func (r *RssFeedRepository) GetFeeds() []quzx_crawler.RssFeed {
 
 	feeds := []quzx_crawler.RssFeed{}
 
@@ -18,7 +23,7 @@ func GetFeeds() []quzx_crawler.RssFeed {
 	return feeds
 }
 
-func UpdateFeed(id int, feed *rss.Feed, lastSyncTime int64) {
+func (r *RssFeedRepository) UpdateFeed(id int, feed *rss.Feed, lastSyncTime int64) {
 
 	tx := db.MustBegin()
 
@@ -40,14 +45,14 @@ func UpdateFeed(id int, feed *rss.Feed, lastSyncTime int64) {
 	tx.Commit()
 }
 
-func SetFeedAsBroken(id int) {
+func (r *RssFeedRepository) SetFeedAsBroken(id int) {
 
 	tx := db.MustBegin()
 	tx.MustExec("UPDATE RssFeed SET Broken = 1 WHERE Id=$1", id)
 	tx.Commit()
 }
 
-func InsertRssItem(feed_id int, i *rss.Item) {
+func (r *RssFeedRepository) InsertRssItem(feed_id int, i *rss.Item) {
 
 	insertQuery := `INSERT INTO RssItem(FeedId, Title, Summary, Content, Link, Date, ItemId, Readed)
 	                VALUES($1, $2, $3, $4, $5, $6, $7, $8)
