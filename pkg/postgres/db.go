@@ -1,19 +1,27 @@
 package postgres
 
 import (
-	"github.com/jmoiron/sqlx"
-	"os"
+	"fmt"
 	"log"
+	"os"
+
+	"github.com/jmoiron/sqlx"
 )
 
 var db *sqlx.DB
 
 func init() {
+
 	var err error
 
-	db, err = sqlx.Open("postgres", "user=" + os.Getenv("DBUSER") +
-		" password=" + os.Getenv("DBPASS") + " host=" + os.Getenv("DBHOST") +
-		" port=" + os.Getenv("DBPORT") + " dbname=" + os.Getenv("DBNAME") + " sslmode=disable")
+	connectionString := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s sslmode=disable",
+		os.Getenv("DBUSER"),
+		os.Getenv("DBPASS"),
+		os.Getenv("DBHOST"),
+		os.Getenv("DBPORT"),
+		os.Getenv("DBNAME"))
+
+	db, err = sqlx.Open("postgres", connectionString)
 	if err != nil {
 		log.Fatal(err)
 	}
