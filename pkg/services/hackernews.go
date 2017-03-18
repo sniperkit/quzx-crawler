@@ -1,4 +1,4 @@
-package hackernews
+package services
 
 import (
 	"fmt"
@@ -12,12 +12,16 @@ import (
 	"strconv"
 )
 
-func GetNews() {
+// represent an implementation of quzx_crawler.HackerNewsService
+type HackerNewsService struct {
+}
 
-	idsUrl := "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
-	newsUrl := "https://hacker-news.firebaseio.com/v0/item/%d.json?print=pretty"
+const idsUrl = "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
+const newsUrl = "https://hacker-news.firebaseio.com/v0/item/%d.json?print=pretty"
+const syncInterval = 60 * 30 // 30 minutes
 
-	var syncInterval int64 = 60 * 30
+func (s *HackerNewsService) Fetch() {
+
 	var lastSyncTime int64
 	var err error
 
@@ -37,10 +41,12 @@ func GetNews() {
 		return
 	}
 
+	// get list of messages
 	res, err := http.Get(idsUrl)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	jsn, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
@@ -50,17 +56,22 @@ func GetNews() {
 	// decode
 	var ids []int64
 	err = json.Unmarshal(jsn, &ids)
+
 	if err != nil {
 		log.Fatal(err)
 	} else {
+
 		for _, id := range ids {
 
 			if !(&postgres.HackerNewsRepository{}).NewsExists(id) {
+
+				// fetch each news
 				log.Println("hacker news: " + fmt.Sprintf(newsUrl, id))
 				res, err := http.Get(fmt.Sprintf(newsUrl, id))
 				if err != nil {
 					log.Fatal(err)
 				}
+
 				jsn, err := ioutil.ReadAll(res.Body)
 				res.Body.Close()
 				if err != nil {
@@ -70,6 +81,7 @@ func GetNews() {
 				// decode
 				var news quzx_crawler.HackerNews
 				err = json.Unmarshal(jsn, &news)
+
 				if err != nil {
 					log.Fatal(err)
 				} else {

@@ -1,4 +1,4 @@
-package rssfeeds
+package services
 
 import (
 	"github.com/demas/cowl-go/pkg/postgres"
@@ -9,17 +9,24 @@ import (
 	"net/http"
 )
 
-func fetchFunc(url string) (resp *http.Response, err error) {
+// represent an implementation of quzx_crawler.RssFeedService
+type RssFeedService struct {
+}
+
+const userAgent = "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405"
+
+func (s *RssFeedService) fetchFunc(url string) (resp *http.Response, err error) {
+
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Println("reddit: cannot fetch url " + url)
 	}
 
-	req.Header.Set("User-Agent", "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405")
+	req.Header.Set("User-Agent", userAgent)
 	return http.DefaultClient.Do(req)
 }
 
-func Fetch() {
+func (s *RssFeedService) Fetch() {
 
 	db_feeds := (&postgres.RssFeedRepository{}).GetFeeds()
 	for _, db_feed := range db_feeds {
@@ -27,7 +34,7 @@ func Fetch() {
 		if db_feed.LastSyncTime + int64(db_feed.SyncInterval) < time.Now().Unix() {
 
 			log.Println("fetch rss: " + db_feed.Link)
-			f, err := rss.FetchByFunc(fetchFunc, db_feed.Link)
+			f, err := rss.FetchByFunc(s.fetchFunc, db_feed.Link)
 
 			if err != nil {
 				log.Println(err)

@@ -8,10 +8,7 @@ import (
 	"os"
 	"strconv"
 	"log"
-
-	"github.com/demas/cowl-go/pkg/services/hackernews"
-	"github.com/demas/cowl-go/pkg/services/stackoverflow"
-	"github.com/demas/cowl-go/pkg/services/rss"
+	"github.com/demas/cowl-go/pkg/services"
 )
 
 func main() {
@@ -27,8 +24,8 @@ func main() {
 	} else {
 		for {
 			(&services.StackOverflowService{}).Fetch()
-			rssfeeds.Fetch()
-			hackernews.GetNews()
+			(&services.RssFeedService{}).Fetch()
+			(&services.HackerNewsService{}).Fetch()
 
 			timer := time.NewTimer(time.Minute * time.Duration(syncInterval))
 			<- timer.C
