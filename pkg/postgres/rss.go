@@ -4,7 +4,6 @@ import (
 	"log"
 	"github.com/SlyMarbo/rss"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
-	"fmt"
 )
 
 func GetFeeds() []quzx_crawler.RssFeed {
@@ -50,17 +49,19 @@ func SetFeedAsBroken(id int) {
 
 func InsertRssItem(feed_id int, i *rss.Item) {
 
-	items := []quzx_crawler.RssItem{}
-
-	err := db.Select(&items, fmt.Sprintf("SELECT * FROM RssItem WHERE FeedId = %d AND Link = '%s'", feed_id, i.Link))
-	if err != nil {
-		log.Fatal(err)
-	}
+	insertQuery := `INSERT INTO RssItem(FeedId, Title, Summary, Content, Link, Date, ItemId, Readed)
+	                VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+	                ON CONFLICT (FeedId, Link) DO NOTHING`
 
 	tx := db.MustBegin()
-	if len(items) == 0 {
-		tx.MustExec("INSERT INTO RssItem(FeedId, Title, Summary, Content, Link, Date, ItemId, Readed) " +
-			"VALUES($1, $2, $3, $4, $5, $6, $7, $8)", feed_id, i.Title, i.Content, i.Summary, i.Link, i.Date.Unix(), i.ID, 0)
-	}
+	tx.MustExec(insertQuery,
+		feed_id,
+		i.Title,
+		i.Content,
+		i.Summary,
+		i.Link,
+		i.Date.Unix(),
+		i.ID,
+		0)
 	tx.Commit()
 }
