@@ -1,4 +1,4 @@
-package stackoverflow
+package services
 
 import (
 	"encoding/json"
@@ -14,35 +14,42 @@ import (
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
 )
 
-func key() string {
-
-	envVar := "SOKEY"
-
-	if os.Getenv(envVar) != "" {
-		return fmt.Sprintf("&key=%s", os.Getenv(envVar))
-	} else {
-		return ""
-	}
+// represent an implementation of quzx_crawler.StackOverflowService
+type StackOverflowService struct {
 }
 
-func getNewMassages(fromTime int64, site string) []quzx_crawler.SOQuestion {
+const soKeyEnvVariable = "SOKEY"
+const maxSOPages = 50
+const soBaseUrl = "https://api.stackexchange.com/2.2/questions?page=%d&pagesize=100&fromdate=%d&order=asc&sort=creation&site=%s%s"
+
+var   soSites = [3]string{"stackoverflow", "security", "codereview"}
+
+func (s *StackOverflowService) key() string {
+
+	if os.Getenv(soKeyEnvVariable) != "" {
+		return fmt.Sprintf("&key=%s", os.Getenv(soKeyEnvVariable))
+	}
+
+	return ""
+}
+
+func (s *StackOverflowService) getNewMassages(fromTime int64, site string) []quzx_crawler.SOQuestion {
 
 	var result []quzx_crawler.SOQuestion
 	page := 1
 	has_more := true
 
-	for has_more && page <= 50 {
+	for has_more && page <= maxSOPages {
 
-		url := fmt.Sprintf(
-			"https://api.stackexchange.com/2.2/questions?page=%d&pagesize=100&fromdate=%d&order=asc&sort=creation&site=%s%s",
-			page, fromTime, site, key())
+		url := fmt.Sprintf(soBaseUrl, page, fromTime, site, s.key())
+		log.Println(url)
 
-		fmt.Println(url)
-
+		// fetch data
 		res, err := http.Get(url)
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		jsn, err := ioutil.ReadAll(res.Body)
 		res.Body.Close()
 		if err != nil {
@@ -58,6 +65,7 @@ func getNewMassages(fromTime int64, site string) []quzx_crawler.SOQuestion {
 		} else {
 			result = append(result, p.Items...)
 		}
+
 		has_more = p.Has_more
 		page = page + 1
 	}
@@ -65,11 +73,10 @@ func getNewMassages(fromTime int64, site string) []quzx_crawler.SOQuestion {
 	return result
 }
 
-func Fetch() {
+func (s *StackOverflowService) Fetch() {
 
 	var lastSyncTime int64
 	var err error
-	var sites = [3]string{"stackoverflow", "security", "codereview"}
 
 	lastSyncTimeStr := (&postgres.SettingsRepository{}).GetSettings("lastStackSyncTime")
 	if lastSyncTimeStr == "" {
@@ -83,9 +90,9 @@ func Fetch() {
 
 	currentTime := time.Now().Unix()
 
-	for _, site := range sites {
-		res := getNewMassages(lastSyncTime, site)
-		(&postgres.StackOverflowRepository{}).InsertSOQuestions(res, site)
+	for _, soSite := range soSites {
+		soQuestions := s.getNewMassages(lastSyncTime, soSite)
+		(&postgres.StackOverflowRepository{}).InsertSOQuestions(soQuestions, soSite)
 	}
 
 	(&postgres.SettingsRepository{}).SetSettings("lastStackSyncTime", strconv.FormatInt(currentTime, 10))

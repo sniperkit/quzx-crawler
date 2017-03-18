@@ -26,7 +26,7 @@ func main() {
 		panic(err)
 	} else {
 		for {
-			stackoverflow.Fetch()
+			(&services.StackOverflowService{}).Fetch()
 			rssfeeds.Fetch()
 			hackernews.GetNews()
 
