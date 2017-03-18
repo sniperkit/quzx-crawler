@@ -31,7 +31,7 @@ func Fetch() {
 
 			if err != nil {
 				log.Println(err)
-				postgres.UpdateFeedAsBroken(db_feed.Id)
+				postgres.SetFeedAsBroken(db_feed.Id)
 			} else {
 				postgres.UpdateFeed(db_feed.Id, f, time.Now().Unix())
 

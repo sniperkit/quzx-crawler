@@ -22,14 +22,26 @@ func GetFeeds() []quzx_crawler.RssFeed {
 func UpdateFeed(id int, feed *rss.Feed, lastSyncTime int64) {
 
 	tx := db.MustBegin()
-	tx.MustExec("UPDATE RssFeed SET Title=$1, Description = $2, UpdateUrl = $3, ImageTitle = $4, " +
-				"ImageUrl = $5, ImageHeight = $6, ImageWidth = $7, LastSyncTime = $8, Broken = 0  WHERE Id=$9",
-		feed.Title, feed.Description, feed.UpdateURL, feed.Image.Title, feed.Image.Url, feed.Image.Height,
-		feed.Image.Width, lastSyncTime, id)
+
+	updateQuery := `UPDATE RssFeed
+	                SET Title=$1, Description = $2, UpdateUrl = $3, ImageTitle = $4,
+			    ImageUrl = $5, ImageHeight = $6, ImageWidth = $7, LastSyncTime = $8, Broken = 0
+			WHERE Id=$9`
+
+	tx.MustExec(updateQuery,
+		    	feed.Title,
+			feed.Description,
+			feed.UpdateURL,
+			feed.Image.Title,
+			feed.Image.Url,
+			feed.Image.Height,
+			feed.Image.Width,
+			lastSyncTime,
+			id)
 	tx.Commit()
 }
 
-func UpdateFeedAsBroken(id int) {
+func SetFeedAsBroken(id int) {
 
 	tx := db.MustBegin()
 	tx.MustExec("UPDATE RssFeed SET Broken = 1 WHERE Id=$1", id)
