@@ -1,17 +1,17 @@
 package stackoverflow
 
 import (
-	"fmt"
-	"net/http"
-	"log"
-	"io/ioutil"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
 	"os"
+	"strconv"
+	"time"
+
 	"github.com/demas/cowl-go/pkg/postgres"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
-	"time"
-	"strconv"
-
 )
 
 func key() string {
@@ -69,7 +69,7 @@ func Fetch() {
 
 	var lastSyncTime int64
 	var err error
-	var sites = [3]string{ "stackoverflow", "security", "codereview" }
+	var sites = [3]string{"stackoverflow", "security", "codereview"}
 
 	lastSyncTimeStr := postgres.GetSettings("lastStackSyncTime")
 	if lastSyncTimeStr == "" {
@@ -85,9 +85,8 @@ func Fetch() {
 
 	for _, site := range sites {
 		res := getNewMassages(lastSyncTime, site)
-		postgres.Insert_so_Questions(res, site)
+		postgres.InsertSOQuestions(res, site)
 	}
 
-	postgres.SetSettings("lastStackSyncTime",  strconv.FormatInt(currentTime, 10))
+	postgres.SetSettings("lastStackSyncTime", strconv.FormatInt(currentTime, 10))
 }
-
