@@ -1,34 +1,29 @@
 package postgres
 
 import (
-	"log"
 	"fmt"
+	"log"
+	"github.com/demas/cowl-go/pkg/quzx-crawler"
 )
 
-type Settings struct {
-	Name string
-	Value string
-}
-
+// GetSettings : return settings from database by key
 func GetSettings(key string) string {
 
-	settings := []Settings{}
+	settings :=  quzx_crawler.Settings{}
+	query := fmt.Sprintf("SELECT * FROM Settings WHERE Name = '%s' LIMIT 1", key)
 
-	err := db.Select(&settings, fmt.Sprintf("SELECT * FROM Settings WHERE Name = '%s'", key))
+	err := db.Get(&settings, query)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(fmt.Sprintf("Error while get Settings %s : %s", key, err))
 	}
 
-	if len(settings) == 0 {
-		return ""
-	} else {
-		return settings[0].Value
-	}
+	return settings.Value
 }
 
-func SetSettings(key string, value string)  {
+// SetSettings : put setting to database
+func SetSettings(key string, value string) {
 
-	settings := []Settings{}
+	settings := []quzx_crawler.Settings{}
 
 	err := db.Select(&settings, fmt.Sprintf("SELECT * FROM Settings WHERE Name = '%s'", key))
 	if err != nil {
