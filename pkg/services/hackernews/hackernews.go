@@ -55,7 +55,7 @@ func GetNews() {
 	} else {
 		for _, id := range ids {
 
-			if postgres.NewsDoesntExists(id) {
+			if !postgres.NewsExists(id) {
 				log.Println("hacker news: " + fmt.Sprintf(newsUrl, id))
 				res, err := http.Get(fmt.Sprintf(newsUrl, id))
 				if err != nil {
