@@ -18,39 +18,29 @@ type HackerNewsService struct {
 
 const idsUrl = "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
 const newsUrl = "https://hacker-news.firebaseio.com/v0/item/%d.json?print=pretty"
-const syncInterval = 60 * 30 // 30 minutes
+const syncInterval = 30 * time.Minute
 
-func (s *HackerNewsService) Fetch() {
-
-	var lastSyncTime int64
-	var err error
+func (s *HackerNewsService) getLastSyncTime() (int64, error) {
 
 	lastSyncTimeStr := (&postgres.SettingsRepository{}).GetSettings("lastHackerNewsSyncTime")
-	if lastSyncTimeStr == "" {
-		lastSyncTime = time.Now().Unix() - syncInterval - 1
+	if len(lastSyncTimeStr) == 0 {
+		return time.Now().Unix() - int64(syncInterval.Seconds()) - 1, nil
 	} else {
-		lastSyncTime, err = strconv.ParseInt(lastSyncTimeStr, 10, 64)
-		if err != nil {
-			log.Fatal(err)
-		}
+		return strconv.ParseInt(lastSyncTimeStr, 10, 64)
 	}
+}
 
-	currentTime := time.Now().Unix()
+func (s *HackerNewsService) getMessagesIds() ([]int64, error) {
 
-	if lastSyncTime + syncInterval > currentTime {
-		return
-	}
-
-	// get list of messages
 	res, err := http.Get(idsUrl)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	jsn, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	// decode
@@ -58,36 +48,64 @@ func (s *HackerNewsService) Fetch() {
 	err = json.Unmarshal(jsn, &ids)
 
 	if err != nil {
+		return nil, err
+	}
+
+	return ids, nil
+}
+
+func (s *HackerNewsService) fetchNews(id int64) (*quzx_crawler.HackerNews, error) {
+
+	log.Println("fetching from hacker news: " + fmt.Sprintf(newsUrl, id))
+	res, err := http.Get(fmt.Sprintf(newsUrl, id))
+	if err != nil {
+		return nil, err
+	}
+
+	jsn, err := ioutil.ReadAll(res.Body)
+	res.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	// decode
+	var news quzx_crawler.HackerNews
+	err = json.Unmarshal(jsn, &news)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &news, nil
+}
+
+func (s *HackerNewsService) Fetch() {
+
+	lastSyncTime, err := s.getLastSyncTime()
+	if err != nil {
 		log.Fatal(err)
-	} else {
+	}
 
-		for _, id := range ids {
+	currentTime := time.Now().Unix()
 
-			if !(&postgres.HackerNewsRepository{}).NewsExists(id) {
+	if lastSyncTime + int64(syncInterval.Seconds()) > currentTime {
+		return
+	}
 
-				// fetch each news
-				log.Println("hacker news: " + fmt.Sprintf(newsUrl, id))
-				res, err := http.Get(fmt.Sprintf(newsUrl, id))
-				if err != nil {
-					log.Fatal(err)
-				}
+	ids, err := s.getMessagesIds()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-				jsn, err := ioutil.ReadAll(res.Body)
-				res.Body.Close()
-				if err != nil {
-					log.Fatal(err)
-				}
+	for _, id := range ids {
 
-				// decode
-				var news quzx_crawler.HackerNews
-				err = json.Unmarshal(jsn, &news)
+		if !(&postgres.HackerNewsRepository{}).NewsExists(id) {
 
-				if err != nil {
-					log.Fatal(err)
-				} else {
-					(&postgres.HackerNewsRepository{}).InsertNews(news)
-				}
+			news, err := s.fetchNews(id)
+			if err != nil {
+				log.Println(err)
 			}
+			(&postgres.HackerNewsRepository{}).InsertNews(*news)
 		}
 	}
 
