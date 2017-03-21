@@ -6,6 +6,7 @@ type RssFeedService interface {
 
 type StackOverflowService interface {
 	Fetch()
+	RemoveOldQuestions()
 }
 
 type HackerNewsService interface {

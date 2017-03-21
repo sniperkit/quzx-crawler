@@ -27,6 +27,8 @@ func main() {
 			(&services.RssFeedService{}).Fetch()
 			(&services.HackerNewsService{}).Fetch()
 
+			(&services.StackOverflowService{}).RemoveOldQuestions()
+
 			timer := time.NewTimer(time.Minute * time.Duration(syncInterval))
 			<- timer.C
 		}

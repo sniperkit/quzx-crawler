@@ -16,6 +16,7 @@ type RssFeedRepository interface {
 
 type StackOverflowRepository interface {
 	InsertSOQuestions(questions []SOQuestion, site string)
+	RemoveOldQuestions(fromTime int64)
 }
 
 type SettingsRepository interface {

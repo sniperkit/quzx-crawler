@@ -48,3 +48,15 @@ func (r *StackOverflowRepository) InsertSOQuestions(questions []quzx_crawler.SOQ
 
 	tx.Commit()
 }
+
+func (r *StackOverflowRepository) RemoveOldQuestions(fromTime int64) {
+
+	tx := db.MustBegin()
+	deleteQuery := `DELETE FROM StackQuestions WHERE Classification = '' AND CreationDate < $1`
+	_, err := tx.Exec(deleteQuery, fromTime)
+	if err != nil {
+		log.Println(err)
+	}
+
+	tx.Commit()
+}
