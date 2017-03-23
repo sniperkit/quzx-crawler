@@ -23,7 +23,7 @@ const maxSOPages = 50
 const soBaseUrl = "https://api.stackexchange.com/2.2/questions?page=%d&pagesize=100&fromdate=%d&order=asc&sort=creation&site=%s%s"
 const removeOldQuestionsInterval = -7 * 24 * time.Hour
 
-var   soSites = [3]string{"stackoverflow", "security", "codereview"}
+var   soSites = [4]string{"stackoverflow", "security", "codereview", "softwareengineering"}
 
 func (s *StackOverflowService) key() string {
 

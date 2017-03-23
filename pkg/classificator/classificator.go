@@ -41,6 +41,14 @@ func Classify(question quzx_crawler.SOQuestion, site string) (classification str
 		return "information security", ""
 	} else if site == "codereview" {
 		return "code review", ""
+	} else if site == "softwareengineering" {
+		if contains(question.Tags, "unit-testing") {
+			return "unit-testing", ""
+		} else if contains(question.Tags, "design") {
+			return "software-desing", ""
+		} else {
+			return "", ""
+		}
 	} else {
 		return "", ""
 	}
