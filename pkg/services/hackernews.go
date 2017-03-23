@@ -71,11 +71,7 @@ func (s *HackerNewsService) fetchNews(id int64) (*quzx_crawler.HackerNews, error
 
 func (s *HackerNewsService) Fetch() {
 
-	lastSyncTime, err := getLastSyncTime("lastHackerNewsSyncTime", int64(syncInterval.Seconds()) + 1)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	lastSyncTime := getLastSyncTime("lastHackerNewsSyncTime", int64(syncInterval.Seconds()) + 1)
 	currentTime := time.Now().Unix()
 
 	if lastSyncTime + int64(syncInterval.Seconds()) > currentTime {

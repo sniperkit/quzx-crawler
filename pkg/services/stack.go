@@ -76,11 +76,7 @@ func (s *StackOverflowService) getNewMassages(fromTime int64, site string) []quz
 
 func (s *StackOverflowService) Fetch() {
 
-	lastSyncTime, err := getLastSyncTime("lastStackSyncTime", 2000)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	lastSyncTime := getLastSyncTime("lastStackSyncTime", 2000)
 	currentTime := time.Now().Unix()
 
 	for _, soSite := range soSites {
