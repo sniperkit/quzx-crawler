@@ -20,16 +20,6 @@ const idsUrl = "https://hacker-news.firebaseio.com/v0/topstories.json?print=pret
 const newsUrl = "https://hacker-news.firebaseio.com/v0/item/%d.json?print=pretty"
 const syncInterval = 30 * time.Minute
 
-func (s *HackerNewsService) getLastSyncTime() (int64, error) {
-
-	lastSyncTimeStr := (&postgres.SettingsRepository{}).GetSettings("lastHackerNewsSyncTime")
-	if len(lastSyncTimeStr) == 0 {
-		return time.Now().Unix() - int64(syncInterval.Seconds()) - 1, nil
-	} else {
-		return strconv.ParseInt(lastSyncTimeStr, 10, 64)
-	}
-}
-
 func (s *HackerNewsService) getMessagesIds() ([]int64, error) {
 
 	res, err := http.Get(idsUrl)
@@ -81,7 +71,7 @@ func (s *HackerNewsService) fetchNews(id int64) (*quzx_crawler.HackerNews, error
 
 func (s *HackerNewsService) Fetch() {
 
-	lastSyncTime, err := s.getLastSyncTime()
+	lastSyncTime, err := getLastSyncTime("lastHackerNewsSyncTime", int64(syncInterval.Seconds()) + 1)
 	if err != nil {
 		log.Fatal(err)
 	}
