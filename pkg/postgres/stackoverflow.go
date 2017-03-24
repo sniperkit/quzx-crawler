@@ -65,7 +65,7 @@ func (r *StackOverflowRepository) RemoveOldQuestions(fromTime int64) {
 	}
 
 	deleteQuery = `DELETE FROM StackQuestions WHERE READED = 1`
-	_, err = tx.Exec(deleteQuery, fromTime)
+	_, err = tx.Exec(deleteQuery)
 	if err != nil {
 		log.Println(err)
 	}
