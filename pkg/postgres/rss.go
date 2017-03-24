@@ -54,8 +54,8 @@ func (r *RssFeedRepository) SetFeedAsBroken(id int) {
 
 func (r *RssFeedRepository) InsertRssItem(feed_id int, i *rss.Item) {
 
-	insertQuery := `INSERT INTO RssItem(FeedId, Title, Summary, Content, Link, Date, ItemId, Readed)
-	                VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+	insertQuery := `INSERT INTO RssItem(FeedId, Title, Summary, Content, Link, Date, ItemId, Readed, Favorite)
+	                VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
 	                ON CONFLICT (FeedId, Link) DO NOTHING`
 
 	tx := db.MustBegin()
@@ -67,6 +67,7 @@ func (r *RssFeedRepository) InsertRssItem(feed_id int, i *rss.Item) {
 		i.Link,
 		i.Date.Unix(),
 		i.ID,
+		0,
 		0)
 	tx.Commit()
 }

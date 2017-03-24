@@ -43,6 +43,7 @@ type RssItem struct {
 	Date    int64
 	ItemId  string
 	Readed  int
+	Favorite int
 }
 
 type SOUser struct {
@@ -85,4 +86,5 @@ type HackerNews struct {
 	Type   string
 	Url    string
 	Readed int
+	Favorite int
 }
