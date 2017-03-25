@@ -19,7 +19,7 @@ func (r *SettingsRepository) GetSettings(key string) string {
 
 	err := db.Get(&settings, query)
 	if err != nil {
-		log.Println(fmt.Sprintf("Error while get Settings %s : %s", key, err))
+		return ""
 	}
 
 	return settings.Value
