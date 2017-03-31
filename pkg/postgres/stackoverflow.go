@@ -13,7 +13,7 @@ type StackOverflowRepository struct {
 }
 
 // InsertSOQuestions : insert StackOverflow questions in database
-func (r *StackOverflowRepository) InsertSOQuestions(questions []quzx_crawler.SOQuestion, site string) {
+func (r *StackOverflowRepository) InsertSOQuestions(questions []quzx_crawler.SOQuestion, site string) error {
 
 	tx := db.MustBegin()
 	for _, q := range questions {
@@ -47,14 +47,16 @@ func (r *StackOverflowRepository) InsertSOQuestions(questions []quzx_crawler.SOQ
 			0)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
+			return err
 		}
 	}
 
 	tx.Commit()
+	return nil
 }
 
-func (r *StackOverflowRepository) RemoveOldQuestions(fromTime int64) {
+func (r *StackOverflowRepository) RemoveOldQuestions(fromTime int64) error {
 
 	tx := db.MustBegin()
 
@@ -71,4 +73,6 @@ func (r *StackOverflowRepository) RemoveOldQuestions(fromTime int64) {
 	}
 
 	tx.Commit()
+
+	return err
 }
