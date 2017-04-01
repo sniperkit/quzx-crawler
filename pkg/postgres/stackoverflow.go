@@ -23,8 +23,8 @@ func (r *StackOverflowRepository) InsertSOQuestions(questions []quzx_crawler.SOQ
 		insertQuery := `INSERT INTO stackquestions
 					(Title, Link, Questionid, Tags, Score, AnswerCount, ViewCount,
 					 Userid, UserReputation, UserDisplayname, UserProfileImage, Classification,
-					 Details, Creationdate, Readed, Favorite, Classified)
-				VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+					 Details, Creationdate, Readed, Favorite, Classified, Site)
+				VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
 				ON CONFLICT DO NOTHING`
 
 		_, err := tx.Exec(insertQuery,
@@ -44,7 +44,8 @@ func (r *StackOverflowRepository) InsertSOQuestions(questions []quzx_crawler.SOQ
 			q.Creation_date,
 			0,
 			0,
-			0)
+			0,
+			site)
 
 		if err != nil {
 			log.Print(err)
