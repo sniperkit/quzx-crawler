@@ -4,7 +4,6 @@ import (
 	"log"
 	"strings"
 
-	"github.com/demas/cowl-go/pkg/classificator"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
 )
 
@@ -17,8 +16,6 @@ func (r *StackOverflowRepository) InsertSOQuestions(questions []quzx_crawler.SOQ
 
 	tx := db.MustBegin()
 	for _, q := range questions {
-
-		classification, details := classificator.Classify(q, site)
 
 		insertQuery := `INSERT INTO stackquestions
 					(Title, Link, Questionid, Tags, Score, AnswerCount, ViewCount,
@@ -39,8 +36,8 @@ func (r *StackOverflowRepository) InsertSOQuestions(questions []quzx_crawler.SOQ
 			q.Owner.Reputation,
 			q.Owner.Display_name,
 			q.Owner.Profile_image,
-			classification,
-			details,
+			"",
+			"",
 			q.Creation_date,
 			0,
 			0,
