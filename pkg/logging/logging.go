@@ -4,6 +4,7 @@ import (
 	"log"
 	"gopkg.in/mgo.v2"
 	"time"
+	"os"
 )
 
 type Message struct {
@@ -18,7 +19,7 @@ var mongo *mgo.Session
 func init() {
 
 	var err error
-	mongo, err = mgo.Dial("192.168.1.71")
+	mongo, err = mgo.Dial(os.Getenv("MONGODB"))
 	if err != nil {
 		log.Println(err)
 	}

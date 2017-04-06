@@ -21,4 +21,4 @@ docker build -t demas1251/quzx-crawler .
 # Quick Start
 
 Set the environment variables: `DBUSER`, `DBPASS`, `DBHOST`, `DBPORT` and `DBNAME` to establish connection to PostgreSQL database.
-
+Set the environment variable `MONGODB` to establish connection to MongoDb.
