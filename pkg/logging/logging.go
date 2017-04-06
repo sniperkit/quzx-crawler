@@ -22,6 +22,15 @@ func init() {
 	mongo, err = mgo.Dial(os.Getenv("MONGODB"))
 	if err != nil {
 		log.Println("Connecting to mongodb: " + err.Error())
+
+		// wait 1 minute to start mongodb
+		timer := time.NewTimer(time.Minute * 1)
+		<- timer.C
+
+		mongo, err = mgo.Dial(os.Getenv("MONGODB"))
+		if err != nil {
+			log.Println("Connecting to mongodb 2: " + err.Error())
+		}
 	}
 }
 
@@ -36,6 +45,10 @@ func LogError(message string) {
 }
 
 func LogMessage(message Message) {
+
+	if mongo == nil {
+		return
+	}
 
 	c := mongo.DB("quzx").C("logs")
 	err := c.Insert(&message)
