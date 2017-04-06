@@ -1,9 +1,9 @@
 package postgres
 
 import (
-	"log"
 	"github.com/SlyMarbo/rss"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
+	"github.com/demas/cowl-go/pkg/logging"
 )
 
 // represent a PostgreSQL implementation of quzx_crawler.RssFeedRepository
@@ -17,7 +17,7 @@ func (r *RssFeedRepository) GetFeeds() []quzx_crawler.RssFeed {
 
 	err := db.Select(&feeds, "SELECT * FROM RssFeed")
 	if err != nil {
-		log.Fatal(err)
+		logging.LogError(err.Error())
 	}
 
 	return feeds

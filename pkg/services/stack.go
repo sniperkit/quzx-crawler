@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -12,6 +11,7 @@ import (
 
 	"github.com/demas/cowl-go/pkg/postgres"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
+	"github.com/demas/cowl-go/pkg/logging"
 )
 
 // represent an implementation of quzx_crawler.StackOverflowService
@@ -43,18 +43,18 @@ func (s *StackOverflowService) getNewMassages(fromTime int64, site string) []quz
 	for has_more && page <= maxSOPages {
 
 		url := fmt.Sprintf(soBaseUrl, page, fromTime, site, s.key())
-		log.Println(url)
+		logging.LogInfo(url)
 
 		// fetch data
 		res, err := http.Get(url)
 		if err != nil {
-			log.Fatal(err)
+			logging.LogError(err.Error())
 		}
 
 		jsn, err := ioutil.ReadAll(res.Body)
 		res.Body.Close()
 		if err != nil {
-			log.Fatal(err)
+			logging.LogError(err.Error())
 		}
 
 		// decode
@@ -62,7 +62,7 @@ func (s *StackOverflowService) getNewMassages(fromTime int64, site string) []quz
 
 		err = json.Unmarshal(jsn, &p)
 		if err != nil {
-			log.Fatal(err)
+			logging.LogError(err.Error())
 		} else {
 			result = append(result, p.Items...)
 		}

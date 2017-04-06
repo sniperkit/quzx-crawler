@@ -2,11 +2,11 @@ package postgres
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
+	"github.com/demas/cowl-go/pkg/logging"
 )
 
 var db *sqlx.DB
@@ -24,6 +24,6 @@ func init() {
 
 	db, err = sqlx.Open("postgres", connectionString)
 	if err != nil {
-		log.Fatal(err)
+		logging.LogError(err.Error())
 	}
 }

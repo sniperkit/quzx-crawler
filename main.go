@@ -7,8 +7,8 @@ import (
 	"time"
 	"os"
 	"strconv"
-	"log"
 	"github.com/demas/cowl-go/pkg/services"
+	"github.com/demas/cowl-go/pkg/logging"
 )
 
 func main() {
@@ -19,7 +19,7 @@ func main() {
 
 	syncInterval, err := strconv.Atoi(os.Getenv("SYNCINTERVAL"))
 	if err != nil {
-		log.Println("SYNCINTERVAL was not defined")
+		logging.LogInfo("SYNCINTERVAL was not defined")
 		panic(err)
 	} else {
 		for {

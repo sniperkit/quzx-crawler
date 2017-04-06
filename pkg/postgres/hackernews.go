@@ -1,8 +1,8 @@
 package postgres
 
 import (
-	"log"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
+	"github.com/demas/cowl-go/pkg/logging"
 )
 
 // represent a PostgreSQL implementation of quzx_crawler.HackerNewsService
@@ -15,7 +15,7 @@ func (r *HackerNewsRepository) NewsExists(id int64) bool {
 	err := db.Get(&cnt, "SELECT count(*) FROM HackerNews WHERE Id = $1", id)
 
 	if err != nil {
-		log.Fatal(err)
+		logging.LogError(err.Error())
 	}
 
 	return cnt != 0
@@ -32,7 +32,7 @@ func (r *HackerNewsRepository) InsertNews(n quzx_crawler.HackerNews) {
 			  n.Id, n.By, n.Score, n.Time, n.Title, n.Type, n.Url, 0, 0)
 
 	if err != nil {
-		log.Fatal(err)
+		logging.LogError(err.Error())
 	}
 
 	tx.Commit()

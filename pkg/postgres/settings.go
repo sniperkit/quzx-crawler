@@ -2,9 +2,9 @@ package postgres
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
+	"github.com/demas/cowl-go/pkg/logging"
 )
 
 // represent a PostgreSQL implementation of quzx_crawler.SettingsRepository
@@ -35,7 +35,7 @@ func (r *SettingsRepository) SetSettings(key string, value string) {
 
 	_, err := tx.Exec(query, key, value)
 	if err != nil {
-		log.Fatal(err)
+		logging.LogError(err.Error())
 	}
 
 	tx.Commit()

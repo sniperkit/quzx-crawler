@@ -1,10 +1,10 @@
 package postgres
 
 import (
-	"log"
 	"strings"
 
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
+	"github.com/demas/cowl-go/pkg/logging"
 )
 
 // represent a PostgreSQL implementation of quzx_crawler.StackOverflowRepository
@@ -45,7 +45,7 @@ func (r *StackOverflowRepository) InsertSOQuestions(questions []quzx_crawler.SOQ
 			site)
 
 		if err != nil {
-			log.Print(err)
+			logging.LogInfo(err.Error())
 			return err
 		}
 	}
@@ -61,13 +61,13 @@ func (r *StackOverflowRepository) RemoveOldQuestions(fromTime int64) error {
 	deleteQuery := `DELETE FROM StackQuestions WHERE Classification = '' AND CreationDate < $1`
 	_, err := tx.Exec(deleteQuery, fromTime)
 	if err != nil {
-		log.Println(err)
+		logging.LogInfo(err.Error())
 	}
 
 	deleteQuery = `DELETE FROM StackQuestions WHERE READED = 1`
 	_, err = tx.Exec(deleteQuery)
 	if err != nil {
-		log.Println(err)
+		logging.LogInfo(err.Error())
 	}
 
 	tx.Commit()

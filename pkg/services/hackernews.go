@@ -3,13 +3,13 @@ package services
 import (
 	"fmt"
 	"net/http"
-	"log"
 	"io/ioutil"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"encoding/json"
 	"github.com/demas/cowl-go/pkg/postgres"
 	"time"
 	"strconv"
+	"github.com/demas/cowl-go/pkg/logging"
 )
 
 // represent an implementation of quzx_crawler.HackerNewsService
@@ -46,7 +46,7 @@ func (s *HackerNewsService) getMessagesIds() ([]int64, error) {
 
 func (s *HackerNewsService) fetchNews(id int64) (*quzx_crawler.HackerNews, error) {
 
-	log.Println("fetching from hacker news: " + fmt.Sprintf(newsUrl, id))
+	logging.LogInfo("fetching from hacker news: " + fmt.Sprintf(newsUrl, id))
 	res, err := http.Get(fmt.Sprintf(newsUrl, id))
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (s *HackerNewsService) Fetch() {
 
 	ids, err := s.getMessagesIds()
 	if err != nil {
-		log.Fatal(err)
+		logging.LogError(err.Error())
 	}
 
 	for _, id := range ids {
@@ -89,7 +89,7 @@ func (s *HackerNewsService) Fetch() {
 
 			news, err := s.fetchNews(id)
 			if err != nil {
-				log.Println(err)
+				logging.LogInfo(err.Error())
 			}
 			(&postgres.HackerNewsRepository{}).InsertNews(*news)
 		}
