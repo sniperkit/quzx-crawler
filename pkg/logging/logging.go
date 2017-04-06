@@ -21,7 +21,7 @@ func init() {
 	var err error
 	mongo, err = mgo.Dial(os.Getenv("MONGODB"))
 	if err != nil {
-		log.Println(err)
+		log.Println("Connecting to mongodb: " + err.Error())
 	}
 }
 
