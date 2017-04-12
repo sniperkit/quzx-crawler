@@ -1,9 +1,5 @@
 package quzx_crawler
 
-import (
-	"database/sql"
-)
-
 type Settings struct {
 	Name  string
 	Value string
@@ -11,17 +7,17 @@ type Settings struct {
 
 type RssFeed struct {
 	Id               int
-	Title            sql.NullString
-	Description      sql.NullString
+	Title            string
+	Description      string
 	Link             string
-	UpdateUrl        sql.NullString
-	ImageTitle       sql.NullString
-	ImageUrl         sql.NullString
-	ImageHeight      sql.NullInt64
-	ImageWidth       sql.NullInt64
+	UpdateUrl        string
+	ImageTitle       string
+	ImageUrl         string
+	ImageHeight      int64
+	ImageWidth       int64
 	LastSyncTime     int64
-	Total            sql.NullInt64
-	Unreaded         sql.NullInt64
+	Total            int64
+	Unreaded         int64
 	SyncInterval     int
 	AlternativeName  string
 	RssType          int

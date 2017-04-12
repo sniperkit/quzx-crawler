@@ -40,7 +40,8 @@ func (s *RssFeedService) Fetch() {
 				logging.LogInfo(err.Error())
 				(&postgres.RssFeedRepository{}).SetFeedAsBroken(db_feed.Id)
 			} else {
-				(&postgres.RssFeedRepository{}).UpdateFeed(db_feed.Id, f, time.Now().Unix())
+				(&postgres.RssFeedRepository{}).UpdateFeedBeforeSync(f.Title, f.Description, f.UpdateURL,
+					f.Image.Title, f.Image.Url, f.Image.Height, f.Image.Width, time.Now().Unix(), db_feed.Id)
 
 				for _, item := range f.Items {
 					(&postgres.RssFeedRepository{}).InsertRssItem(db_feed.Id, item)
