@@ -32,12 +32,9 @@ func prepare() {
 
 	// clean up all tables
 	db.Exec(`DELETE FROM Settings`)
-	db.Exec(`DELETE FROM HackerNews`)
 
 	db.Exec(`DELETE FROM StackQuestions`)
 	db.Exec(`INSERT INTO Settings(Name, Value) VALUES('one', 'one_value')`)
-	db.Exec(`INSERT INTO HackerNews(Id, By, Score, Time, Title, Type, Url, Readed, Favorite)
-			VALUES(1, 'by', 10, 123456, 'title', 'type', 'http://google.com', 0, 0)`)
 
 	insertFeedQuery := `INSERT INTO RssFeed(Title, Description, Link, UpdateUrl, ImageTitle, ImageUrl, ImageHeight,
 			     		        ImageWidth, LastSyncTime, Total, Unreaded, SyncInterval, AlternativeName,

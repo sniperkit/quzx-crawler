@@ -2,42 +2,12 @@ package tst
 
 import (
 	"testing"
-	"fmt"
 
 	"github.com/demas/cowl-go/pkg/postgres"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"time"
 	_ "github.com/lib/pq"
 )
-
-func TestCheckThatHackerNewsExists(t *testing.T) {
-
-	value:= (&postgres.HackerNewsRepository{}).NewsExists(1)
-	if value != true {
-		t.Error(fmt.Sprintf("Expected value of 'true', but it was %s instead", value))
-	}
-}
-
-func TestCheckThatHackerNewsDoesntExists(t *testing.T) {
-
-	value:= (&postgres.HackerNewsRepository{}).NewsExists(2)
-	if value != false {
-		t.Error(fmt.Sprintf("Expected value of 'true', but it was %s instead", value))
-	}
-}
-
-func TestInsertHackerNews(t *testing.T) {
-
-	var insertedId int64 = 999
-	hn := quzx_crawler.HackerNews{ Id:insertedId, By:"by_demas", Score:20, Time:654321, Title:"some_title",
-		Type:"some_type", Url:"www.yandex.ru", Readed:0, Favorite:0 }
-	(&postgres.HackerNewsRepository{}).InsertNews(hn)
-
-	value:= (&postgres.HackerNewsRepository{}).NewsExists(insertedId)
-	if value != true {
-		t.Error(fmt.Sprintf("Expected value of 'true', but it was %s instead", value))
-	}
-}
 
 
 func TestInsertStackOverflowQuestions(t *testing.T) {
