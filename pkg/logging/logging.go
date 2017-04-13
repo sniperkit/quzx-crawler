@@ -4,7 +4,6 @@ import (
 	"log"
 	"gopkg.in/mgo.v2"
 	"time"
-	"os"
 )
 
 type Message struct {
@@ -18,20 +17,20 @@ var mongo *mgo.Session
 
 func init() {
 
-	var err error
-	mongo, err = mgo.Dial(os.Getenv("MONGODB"))
-	if err != nil {
-		log.Println("Connecting to mongodb: " + err.Error())
-
-		// wait 1 minute to start mongodb
-		timer := time.NewTimer(time.Minute * 1)
-		<- timer.C
-
-		mongo, err = mgo.Dial(os.Getenv("MONGODB"))
-		if err != nil {
-			log.Println("Connecting to mongodb 2: " + err.Error())
-		}
-	}
+	//var err error
+	//mongo, err = mgo.Dial(os.Getenv("MONGODB"))
+	//if err != nil {
+	//	log.Println("Connecting to mongodb: " + err.Error())
+//
+//		// wait 1 minute to start mongodb
+//		timer := time.NewTimer(time.Minute * 1)
+//		<- timer.C
+//
+//		mongo, err = mgo.Dial(os.Getenv("MONGODB"))
+//		if err != nil {
+//			log.Println("Connecting to mongodb 2: " + err.Error())
+//		}
+//	}
 }
 
 func LogInfo(message string) {
@@ -46,15 +45,15 @@ func LogError(message string) {
 
 func LogMessage(message Message) {
 
-	if mongo == nil {
-		return
-	}
+//	if mongo == nil {
+//		return
+//	}
 
-	c := mongo.DB("quzx").C("logs")
-	err := c.Insert(&message)
-	if err != nil {
-		log.Println(err)
-	}
+//	c := mongo.DB("quzx").C("logs")
+//	err := c.Insert(&message)
+///	if err != nil {
+//		log.Println(err)
+//	}
 
 	if message.Level == "info" {
 		log.Println(message.Message)
