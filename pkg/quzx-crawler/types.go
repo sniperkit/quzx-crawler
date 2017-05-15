@@ -90,3 +90,10 @@ type HackerNews struct {
 	Readed   int
 	Favorite int
 }
+
+type LogMessage struct {
+	Moment      int64
+	Application string
+	Level       int
+	Message     string
+}

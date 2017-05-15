@@ -2,62 +2,71 @@ package logging
 
 import (
 	"log"
-	"gopkg.in/mgo.v2"
 	"time"
+
+	"fmt"
+	"os"
+
+	"github.com/demas/cowl-go/pkg/quzx-crawler"
+	"github.com/jmoiron/sqlx"
 )
 
-type Message struct {
-	Moment int64
-	Application string
-	Level string
-	Message string
-}
-
-var mongo *mgo.Session
+var db *sqlx.DB
 
 func init() {
 
-	//var err error
-	//mongo, err = mgo.Dial(os.Getenv("MONGODB"))
-	//if err != nil {
-	//	log.Println("Connecting to mongodb: " + err.Error())
-//
-//		// wait 1 minute to start mongodb
-//		timer := time.NewTimer(time.Minute * 1)
-//		<- timer.C
-//
-//		mongo, err = mgo.Dial(os.Getenv("MONGODB"))
-//		if err != nil {
-//			log.Println("Connecting to mongodb 2: " + err.Error())
-//		}
-//	}
+	var err error
+
+	connectionString := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s sslmode=disable",
+		os.Getenv("DBUSER"),
+		os.Getenv("DBPASS"),
+		os.Getenv("DBHOST"),
+		os.Getenv("DBPORT"),
+		os.Getenv("DBNAME"))
+
+	db, err = sqlx.Open("postgres", connectionString)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+}
+
+func InsertLogMessage(message quzx_crawler.LogMessage) {
+
+	tx := db.MustBegin()
+
+	insertQuery := `INSERT INTO Logs(Moment, Application, Level, Message)
+		        VALUES($1, $2, $3, $4)`
+
+	_, err := tx.Exec(insertQuery,
+		message.Moment,
+		message.Application,
+		message.Level,
+		message.Message)
+
+	if err != nil {
+		log.Println("Error inserting logs to DB")
+	}
+
+	tx.Commit()
 }
 
 func LogInfo(message string) {
 
-	LogMessage(Message{ Moment: time.Now().Unix(), Application: "crawler", Level: "info", Message: message })
+	LogMessage(quzx_crawler.LogMessage{Moment: time.Now().Unix(), Application: "crawler", Level: 5, Message: message})
 }
 
 func LogError(message string) {
 
-	LogMessage(Message{ Moment: time.Now().Unix(), Application: "crawler", Level: "error", Message: message })
+	LogMessage(quzx_crawler.LogMessage{Moment: time.Now().Unix(), Application: "crawler", Level: 1, Message: message})
 }
 
-func LogMessage(message Message) {
+func LogMessage(message quzx_crawler.LogMessage) {
 
-//	if mongo == nil {
-//		return
-//	}
+	InsertLogMessage(message)
 
-//	c := mongo.DB("quzx").C("logs")
-//	err := c.Insert(&message)
-///	if err != nil {
-//		log.Println(err)
-//	}
-
-	if message.Level == "info" {
+	if message.Level == 5 {
 		log.Println(message.Message)
-	} else if message.Level == "error" {
+	} else if message.Level == 1 {
 		log.Fatal(message.Message)
 	}
 }
