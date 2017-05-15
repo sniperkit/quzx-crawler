@@ -30,15 +30,15 @@ type RssFeed struct {
 }
 
 type RssItem struct {
-	Id      int
-	FeedId  int
-	Title   string
-	Summary string
-	Content string
-	Link    string
-	Date    int64
-	ItemId  string
-	Readed  int
+	Id       int
+	FeedId   int
+	Title    string
+	Summary  string
+	Content  string
+	Link     string
+	Date     int64
+	ItemId   string
+	Readed   int
 	Favorite int
 }
 
@@ -73,14 +73,20 @@ type SOResponse struct {
 	Quota_remaining int
 }
 
+type StackTag struct {
+	Classification string
+	Unreaded       int
+	Hidden         int
+}
+
 type HackerNews struct {
-	Id     int64
-	By     string
-	Score  int
-	Time   int64
-	Title  string
-	Type   string
-	Url    string
-	Readed int
+	Id       int64
+	By       string
+	Score    int
+	Time     int64
+	Title    string
+	Type     string
+	Url      string
+	Readed   int
 	Favorite int
 }

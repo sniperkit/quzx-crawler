@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/demas/cowl-go/pkg/logging"
 	"github.com/demas/cowl-go/pkg/postgres"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
-	"github.com/demas/cowl-go/pkg/logging"
 )
 
 // represent an implementation of quzx_crawler.StackOverflowService
@@ -23,7 +23,7 @@ const maxSOPages = 50
 const soBaseUrl = "https://api.stackexchange.com/2.2/questions?page=%d&pagesize=100&fromdate=%d&order=asc&sort=creation&site=%s%s"
 const removeOldQuestionsInterval = -7 * 24 * time.Hour
 
-var   soSites = [4]string{"stackoverflow", "security", "codereview", "softwareengineering"}
+var soSites = [4]string{"stackoverflow", "security", "codereview", "softwareengineering"}
 
 func (s *StackOverflowService) key() string {
 
@@ -80,8 +80,12 @@ func (s *StackOverflowService) Fetch() {
 	currentTime := time.Now().Unix()
 
 	for _, soSite := range soSites {
+
 		soQuestions := s.getNewMassages(lastSyncTime, soSite)
-		(&postgres.StackOverflowRepository{}).InsertSOQuestions(soQuestions, soSite)
+		for _, question := range soQuestions {
+
+			(&postgres.StackOverflowRepository{}).InsertSOQuestion(&question, soSite)
+		}
 	}
 
 	(&postgres.SettingsRepository{}).SetSettings("lastStackSyncTime", strconv.FormatInt(currentTime, 10))

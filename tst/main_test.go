@@ -1,11 +1,12 @@
 package tst
 
 import (
-	"os"
 	"fmt"
-	"github.com/jmoiron/sqlx"
 	"log"
+	"os"
 	"testing"
+
+	"github.com/jmoiron/sqlx"
 )
 
 var feedId int
@@ -32,34 +33,6 @@ func prepare() {
 
 	// clean up all tables
 	db.Exec(`DELETE FROM Settings`)
-
-	db.Exec(`DELETE FROM StackQuestions`)
 	db.Exec(`INSERT INTO Settings(Name, Value) VALUES('one', 'one_value')`)
 
-	insertFeedQuery := `INSERT INTO RssFeed(Title, Description, Link, UpdateUrl, ImageTitle, ImageUrl, ImageHeight,
-			     		        ImageWidth, LastSyncTime, Total, Unreaded, SyncInterval, AlternativeName,
-					        RssType, ShowContent, ShowOrder, Folder, LimitFull, LimitHeadersOnly, Broken)
-	      		     VALUES('feed_title', 'description', 'www.ya.ru', '', '', '', 0, 0, 0, 0, 0, 1000, 'alternative',
-	      		            2, 0, 0, 'devel', 0, 0, 0)
-	      		     RETURNING Id`
-
-	rows, err := db.Query(insertFeedQuery)
-	if err != nil {
-		log.Print(err)
-	}
-	if rows.Next() {
-		rows.Scan(&feedId)
-	}
-
-	db.Exec(`INSERT INTO RssItem(FeedId, Title, Summary, Content, Link, Date, ItemId, Readed, Favorite)
-			VALUES($1, 'item_title', 'item_summary', 'content', 'www.google.com', 0, '0', 0, 0)`, feedId)
-
-	db.Exec(`INSERT INTO StackQuestions(Title, Link, QuestionId, Tags, Score, AnswerCount, ViewCount,
-				                    UserId, UserReputation, UserDisplayName, UserProfileImage,
-				                    Classification, Details, Readed, CreationDate, Favorite, Classified)
-			VALUES('title', 'www.google.com', 10, 'linux,docker', 5, 10, 100, 1, 12, 'user', 'profile',
-			        'docker', '', 0,  0, 0, 1)`)
 }
-
-
-
