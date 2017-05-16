@@ -2,15 +2,14 @@ package postgres
 
 import (
 	"github.com/SlyMarbo/rss"
-	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"github.com/demas/cowl-go/pkg/logging"
+	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"github.com/demas/cowl-services/pkg/quzx"
 )
 
 // represent a PostgreSQL implementation of quzx_crawler.RssFeedRepository
 type RssFeedRepository struct {
 }
-
 
 func (r *RssFeedRepository) GetFeeds() []quzx_crawler.RssFeed {
 
@@ -37,6 +36,14 @@ func (s *RssFeedRepository) GetRssFeedById(id int) (quzx.RssFeed, error) {
 	selectQuery := `SELECT * FROM RssFeed WHERE Id = $1`
 	var result quzx.RssFeed
 	err := db.Get(&result, selectQuery, id)
+	return result, err
+}
+
+func (s *RssFeedRepository) GetRssFeedByUrl(url string) (quzx.RssFeed, error) {
+
+	selectQuery := `SELECT * FROM RssFeed WHERE Link = $1`
+	var result quzx.RssFeed
+	err := db.Get(&result, selectQuery, url)
 	return result, err
 }
 
@@ -87,7 +94,7 @@ func (s *RssFeedRepository) InsertRssFeed(feed *quzx.RssFeed) int {
 }
 
 func (r *RssFeedRepository) UpdateFeedBeforeSync(title string, description string, updateUrl string, imageTitle string,
-				imageUrl string, imageHeight uint32, imageWidth uint32, lastSyncTime int64, id int) {
+	imageUrl string, imageHeight uint32, imageWidth uint32, lastSyncTime int64, id int) {
 
 	tx := db.MustBegin()
 
@@ -97,15 +104,15 @@ func (r *RssFeedRepository) UpdateFeedBeforeSync(title string, description strin
 			WHERE Id=$9`
 
 	tx.MustExec(updateQuery,
-		    	title,
-			description,
-			imageUrl,
-			imageTitle,
-			imageUrl,
-			imageHeight,
-			imageWidth,
-			lastSyncTime,
-			id)
+		title,
+		description,
+		imageUrl,
+		imageTitle,
+		imageUrl,
+		imageHeight,
+		imageWidth,
+		lastSyncTime,
+		id)
 	tx.Commit()
 }
 
@@ -136,7 +143,6 @@ func (s *RssFeedRepository) UpdateFeedAfterSync(link string, lastSyncTime int64,
 	tx.Commit()
 }
 
-
 func (r *RssFeedRepository) SetFeedAsBroken(id int) {
 
 	tx := db.MustBegin()
@@ -153,7 +159,6 @@ func (s *RssFeedRepository) SetRssFeedAsReaded(feedId int) {
 	}
 	tx.Commit()
 }
-
 
 func (s *RssFeedRepository) UnsubscribeRssFeed(feedId int) {
 

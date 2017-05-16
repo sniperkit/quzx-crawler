@@ -1,36 +1,29 @@
 package main
 
 import (
-
 	_ "github.com/lib/pq"
 
-	"time"
+	"log"
 	"os"
-	"strconv"
+
 	"github.com/demas/cowl-go/pkg/services"
-	"github.com/demas/cowl-go/pkg/logging"
 )
 
 func main() {
 
-	// wait 1 minute to start postgresql
-	timer := time.NewTimer(time.Minute * 1)
-	<- timer.C
+	args := os.Args[1:]
 
-	syncInterval, err := strconv.Atoi(os.Getenv("SYNCINTERVAL"))
-	if err != nil {
-		logging.LogInfo("SYNCINTERVAL was not defined")
-		panic(err)
-	} else {
-		for {
-			(&services.StackOverflowService{}).Fetch()
-			(&services.RssFeedService{}).Fetch()
-			(&services.HackerNewsService{}).Fetch()
-
-			(&services.StackOverflowService{}).RemoveOldQuestions()
-
-			timer := time.NewTimer(time.Minute * time.Duration(syncInterval))
-			<- timer.C
-		}
+	if len(args) == 0 {
+		log.Println("Specify command")
+		return
 	}
+
+	if args[0] == "fetch" {
+		services.FetchNews()
+	} else if args[0] == "import-opml" {
+		services.ImportOpml()
+	} else {
+		log.Println("unknown command")
+	}
+
 }
