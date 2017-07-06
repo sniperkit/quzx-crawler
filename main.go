@@ -18,12 +18,5 @@ func main() {
 		return
 	}
 
-	if args[0] == "fetch" {
-		services.FetchNews()
-	} else if args[0] == "import-opml" {
-		services.ImportOpml()
-	} else {
-		log.Println("unknown command")
-	}
-
+	services.FetchNews()
 }
