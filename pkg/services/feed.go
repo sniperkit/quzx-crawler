@@ -1,11 +1,12 @@
 package services
 
 import (
-	"github.com/demas/cowl-go/pkg/postgres"
 	"github.com/SlyMarbo/rss"
+	"github.com/demas/cowl-go/pkg/postgres"
 
-	"time"
 	"net/http"
+	"time"
+
 	"github.com/demas/cowl-go/pkg/logging"
 )
 
@@ -31,7 +32,7 @@ func (s *RssFeedService) Fetch() {
 	db_feeds := (&postgres.RssFeedRepository{}).GetFeeds()
 	for _, db_feed := range db_feeds {
 
-		if db_feed.LastSyncTime + int64(db_feed.SyncInterval) < time.Now().Unix() {
+		if db_feed.LastSyncTime+int64(db_feed.SyncInterval) < time.Now().Unix() {
 
 			logging.LogInfo("fetch rss: " + db_feed.Link)
 			f, err := rss.FetchByFunc(s.fetchFunc, db_feed.Link)
@@ -41,7 +42,7 @@ func (s *RssFeedService) Fetch() {
 				(&postgres.RssFeedRepository{}).SetFeedAsBroken(db_feed.Id)
 			} else {
 				(&postgres.RssFeedRepository{}).UpdateFeedBeforeSync(f.Title, f.Description, f.UpdateURL,
-					f.Image.Title, f.Image.Url, f.Image.Height, f.Image.Width, time.Now().Unix(), db_feed.Id)
+					f.Image.Title, f.Image.URL, f.Image.Height, f.Image.Width, time.Now().Unix(), db_feed.Id)
 
 				for _, item := range f.Items {
 					(&postgres.RssFeedRepository{}).InsertRssItem(db_feed.Id, item)
