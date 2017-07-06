@@ -13,8 +13,8 @@ func FetchNews() {
 
 	log.Println("fetching news")
 	// wait 1 minute to start postgresql
-	timer := time.NewTimer(time.Minute * 1)
-	<-timer.C
+	// timer := time.NewTimer(time.Minute * 1)
+	// <-timer.C
 
 	syncInterval, err := strconv.Atoi(os.Getenv("SYNCINTERVAL"))
 	if err != nil {
@@ -23,10 +23,10 @@ func FetchNews() {
 	} else {
 		for {
 			(&StackOverflowService{}).Fetch()
-			(&RssFeedService{}).Fetch()
-			(&HackerNewsService{}).Fetch()
+			//(&RssFeedService{}).Fetch()
+			//(&HackerNewsService{}).Fetch()
 
-			(&StackOverflowService{}).RemoveOldQuestions()
+			//(&StackOverflowService{}).RemoveOldQuestions()
 
 			timer := time.NewTimer(time.Minute * time.Duration(syncInterval))
 			<-timer.C

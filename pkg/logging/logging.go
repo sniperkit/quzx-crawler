@@ -62,7 +62,7 @@ func LogError(message string) {
 
 func LogMessage(message quzx_crawler.LogMessage) {
 
-	InsertLogMessage(message)
+	//InsertLogMessage(message)
 
 	if message.Level == 5 {
 		log.Println(message.Message)
