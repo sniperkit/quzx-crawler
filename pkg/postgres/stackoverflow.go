@@ -68,6 +68,29 @@ func (r *StackOverflowRepository) InsertSOQuestion(question *quzx_crawler.SOQues
 	return id
 }
 
+func (r *StackOverflowRepository) UpdateSOQuestion(question *quzx_crawler.SOQuestion) {
+
+	updateQuery := `UPDATE StackQuestions
+				    SET Score = $1,
+				        AnswerCount = $2,
+				        ViewCount = $3
+				    WHERE QuestionId = $4`
+
+	tx := db.MustBegin()
+
+	_, err := tx.Exec(updateQuery,
+		question.Score,
+		question.Answer_count,
+		question.View_count,
+		question.Question_id)
+
+	if err != nil {
+		logging.LogInfo(err.Error())
+	}
+
+	tx.Commit()
+}
+
 func (r *StackOverflowRepository) RemoveOldQuestions(fromTime int64) error {
 
 	tx := db.MustBegin()

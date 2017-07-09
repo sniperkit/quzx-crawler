@@ -9,11 +9,24 @@ import (
 	"github.com/demas/cowl-go/pkg/logging"
 )
 
+func doEvery(d time.Duration, f func()) {
+
+	for {
+		f()
+		timer := time.NewTimer(d)
+		<-timer.C
+	}
+}
+
+func heartBeat() {
+	println("working...")
+}
+
 func FetchNews() {
 
 	log.Println("fetching news")
 	// wait 1 minute to start postgresql
-	timer := time.NewTimer(time.Minute * 1)
+	timer := time.NewTimer(time.Second * 40)
 	<-timer.C
 
 	syncInterval, err := strconv.Atoi(os.Getenv("SYNCINTERVAL"))
@@ -21,15 +34,15 @@ func FetchNews() {
 		logging.LogInfo("SYNCINTERVAL was not defined")
 		panic(err)
 	} else {
-		for {
-			(&StackOverflowService{}).Fetch()
-			//(&RssFeedService{}).Fetch()
-			//(&HackerNewsService{}).Fetch()
 
-			//(&StackOverflowService{}).RemoveOldQuestions()
+		go doEvery(time.Minute*time.Duration(syncInterval), (&StackOverflowService{}).Fetch)
 
-			timer := time.NewTimer(time.Minute * time.Duration(syncInterval))
-			<-timer.C
-		}
+		// каждые 30 минут спрашиваем 1000 самых удачных вопросов за последние 3 дня
+		go doEvery(time.Minute*30, (&StackOverflowService{}).FetchVotedQuestions)
+		doEvery(time.Minute*60, heartBeat)
+
+		//(&RssFeedService{}).Fetch()
+		//(&HackerNewsService{}).Fetch()
+		//(&StackOverflowService{}).RemoveOldQuestions()
 	}
 }

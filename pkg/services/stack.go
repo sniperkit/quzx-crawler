@@ -21,6 +21,7 @@ type StackOverflowService struct {
 const soKeyEnvVariable = "SOKEY"
 const maxSOPages = 50
 const soBaseUrl = "https://api.stackexchange.com/2.2/questions?page=%d&pagesize=100&fromdate=%d&order=asc&sort=creation&site=%s%s"
+const votesUrl = "https://api.stackexchange.com/2.2/questions?page=%d&pagesize=100&fromdate=%d&order=desc&sort=votes&&site=stackoverflow%s"
 const removeOldQuestionsInterval = -7 * 24 * time.Hour
 
 var soSites = [4]string{"stackoverflow", "security", "codereview", "softwareengineering"}
@@ -43,7 +44,7 @@ func (s *StackOverflowService) getNewMassages(fromTime int64, site string) []quz
 	for has_more && page <= maxSOPages {
 
 		url := fmt.Sprintf(soBaseUrl, page, fromTime, site, s.key())
-		logging.LogInfo(url)
+		logging.LogInfo("(n) " + url)
 
 		// fetch data
 		res, err := http.Get(url)
@@ -74,6 +75,47 @@ func (s *StackOverflowService) getNewMassages(fromTime int64, site string) []quz
 	return result
 }
 
+// 1000 (100 * 10) самых удачных вопросов за последние 3 дня
+func (s *StackOverflowService) getVotedQuestions() []quzx_crawler.SOQuestion {
+
+	var result []quzx_crawler.SOQuestion
+
+	var fromTime int64
+	fromTime = time.Now().Add(-24 * time.Hour * 3).Unix()
+	logging.LogInfo("=== fetch voted messages")
+
+	for page := 1; page <= 10; page ++ {
+
+		url := fmt.Sprintf(votesUrl, page, fromTime, s.key())
+		logging.LogInfo("(v) " + url)
+
+		// fetch data
+		res, err := http.Get(url)
+		if err != nil {
+			logging.LogError(err.Error())
+		}
+
+		jsn, err := ioutil.ReadAll(res.Body)
+		res.Body.Close()
+		if err != nil {
+			logging.LogError(err.Error())
+		}
+
+		// decode
+		var p quzx_crawler.SOResponse
+
+		err = json.Unmarshal(jsn, &p)
+		if err != nil {
+			logging.LogError(err.Error())
+		} else {
+			result = append(result, p.Items...)
+		}
+
+	}
+
+	return result
+}
+
 func (s *StackOverflowService) Fetch() {
 
 	lastSyncTime := getLastSyncTime("lastStackSyncTime", 2000)
@@ -89,6 +131,14 @@ func (s *StackOverflowService) Fetch() {
 	}
 
 	(&postgres.SettingsRepository{}).SetSettings("lastStackSyncTime", strconv.FormatInt(currentTime, 10))
+}
+
+func (s *StackOverflowService) FetchVotedQuestions() {
+
+	soQuestions := s.getVotedQuestions()
+	for _, question := range soQuestions {
+		(&postgres.StackOverflowRepository{}).UpdateSOQuestion(&question)
+	}
 }
 
 func (s *StackOverflowService) RemoveOldQuestions() {
