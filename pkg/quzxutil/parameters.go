@@ -23,6 +23,12 @@ func GetParameter(name string) (string) {
 			result = "5432"
 		case "DBNAME":
 			result = "rss"
+		case "PORT":
+			result = "4000"
+		case "USER":
+			result = "demas"
+		case "PASS":
+			result = "root"
 		}
 	}
 

@@ -18,8 +18,6 @@ func main() {
 	operation := flag.String("operation", "", "filename")
 	filename := flag.String("filename", "", "filename")
 	flag.Parse()
-	fmt.Println(*operation)
-	fmt.Println(*filename)
 
 	switch *operation {
 
@@ -30,6 +28,17 @@ func main() {
 			os.Exit(0)
 		}
 		services.ImportOpml(*filename)
+
+	case "export-feeds":
+		fmt.Println("Exporting feeds")
+		if len(*filename) == 0 {
+			fmt.Println("Please provide filename")
+			os.Exit(0)
+		}
+		services.ExportRssFeeds(*filename)
+
+	case "import-feeds":
+		fmt.Println("Importing feeds")
 
 	case "fetch-rss":
 		fmt.Println("Fetch RSS")
