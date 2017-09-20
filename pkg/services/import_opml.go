@@ -40,11 +40,11 @@ func insertRssFeed(url string) {
 	}
 }
 
-func ImportOpml() {
+func ImportOpml(filename string) {
 
 	log.Println("Importing OPML file")
 
-	doc, err := opml.NewOPMLFromFile("d:\\bazqux.xml")
+	doc, err := opml.NewOPMLFromFile(filename)
 	if err != nil {
 		log.Fatal(err)
 	}

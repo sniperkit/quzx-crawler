@@ -230,16 +230,19 @@ func (r *RssFeedRepository) InsertRssItem(feed_id int, i *rss.Item) int {
 
 	if err != nil {
 		logging.LogInfo(err.Error())
+		tx.Rollback()
+		return 0
+	} else {
+
+		var itemId int = 0
+		if rows.Next() {
+			rows.Scan(&itemId)
+		}
+
+		tx.Commit()
+
+		return itemId
 	}
-
-	var itemId int = 0
-	if rows.Next() {
-		rows.Scan(&itemId)
-	}
-
-	tx.Commit()
-
-	return itemId
 }
 
 func (s *RssFeedRepository) SetRssItemAsReaded(id int) {
