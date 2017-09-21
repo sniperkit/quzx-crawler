@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/demas/cowl-go/pkg/postgres"
-	"github.com/demas/cowl-services/pkg/quzx"
+	"github.com/demas/cowl-go/pkg/rest-api/quzx"
 	"github.com/gilliek/go-opml/opml"
 )
 

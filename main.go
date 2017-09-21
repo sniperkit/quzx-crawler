@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"os"
 	"github.com/demas/cowl-go/pkg/services"
+	"github.com/demas/cowl-go/pkg/rest-api"
 )
 
 func main() {
@@ -43,5 +44,9 @@ func main() {
 	case "fetch-rss":
 		fmt.Println("Fetch RSS")
 		services.FetchNews()
+
+	case "serve-rest-api":
+		fmt.Println("Serve REST API")
+		rest_api.Serve()
 	}
 }

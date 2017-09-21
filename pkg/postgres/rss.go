@@ -4,7 +4,7 @@ import (
 	"github.com/SlyMarbo/rss"
 	"github.com/demas/cowl-go/pkg/logging"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
-	"github.com/demas/cowl-services/pkg/quzx"
+	"github.com/demas/cowl-go/pkg/rest-api/quzx"
 )
 
 // represent a PostgreSQL implementation of quzx_crawler.RssFeedRepository
