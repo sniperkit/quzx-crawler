@@ -125,8 +125,8 @@ func (s *StackOverflowService) Fetch() {
 
 		soQuestions := s.getNewMassages(lastSyncTime, soSite)
 		for _, question := range soQuestions {
-
-			(&postgres.StackOverflowRepository{}).InsertSOQuestion(&question, soSite)
+			classified_question := Classify(question, soSite)
+			(&postgres.StackOverflowRepository{}).InsertSOQuestion(&classified_question, soSite)
 		}
 	}
 

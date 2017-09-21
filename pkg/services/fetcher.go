@@ -29,20 +29,20 @@ func FetchNews() {
 	timer := time.NewTimer(time.Second * 1)
 	<-timer.C
 
-	// syncInterval, err := strconv.Atoi(getParameter("SYNCINTERVAL"))
-	_, err := strconv.Atoi(quzxutil.GetParameter("SYNCINTERVAL"))
+	syncInterval, err := strconv.Atoi(quzxutil.GetParameter("SYNCINTERVAL"))
 	if err != nil {
 		logging.LogInfo("SYNCINTERVAL was not defined")
 		panic(err)
 	} else {
 
-		// go doEvery(time.Minute*time.Duration(syncInterval), (&StackOverflowService{}).Fetch)
+		go doEvery(time.Minute*time.Duration(syncInterval), (&StackOverflowService{}).Fetch)
+		go doEvery(time.Minute*time.Duration(30), (&RssFeedService{}).Fetch)
 
 		// каждые 30 минут спрашиваем 1000 самых удачных вопросов за последние 3 дня
 		// go doEvery(time.Minute*30, (&StackOverflowService{}).FetchVotedQuestions)
-		// doEvery(time.Minute*60, heartBeat)
+		doEvery(time.Minute*60, heartBeat)
 
-		(&RssFeedService{}).Fetch()
+
 		//(&HackerNewsService{}).Fetch()
 		//(&StackOverflowService{}).RemoveOldQuestions()
 	}

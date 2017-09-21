@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"log"
 
-	"os"
+	"github.com/demas/cowl-go/pkg/quzxutil"
 )
 
 type TwitterService struct {
@@ -14,10 +14,11 @@ type TwitterService struct {
 
 func (s *TwitterService) GetFavoritesTwits(name string) ([]anaconda.Tweet, error) {
 
-	consumer_key := os.Getenv("TWICONKEY")
-	consumer_secret := os.Getenv("TWICONSEC")
-	access_token := os.Getenv("TWIACCTOK")
-	access_token_secret := os.Getenv("TWIACCTOKSEC")
+	// TODO: refactore (move to function)
+	consumer_key := quzxutil.GetParameter("TWICONKEY")
+	consumer_secret := quzxutil.GetParameter("TWICONSEC")
+	access_token := quzxutil.GetParameter("TWIACCTOK")
+	access_token_secret := quzxutil.GetParameter("TWIACCTOKSEC")
 
 	anaconda.SetConsumerKey(consumer_key)
 	anaconda.SetConsumerSecret(consumer_secret)
@@ -36,10 +37,10 @@ func (s *TwitterService) GetFavoritesTwits(name string) ([]anaconda.Tweet, error
 
 func (s *TwitterService) DestroyFavorites(id int64) {
 
-	consumer_key := os.Getenv("TWICONKEY")
-	consumer_secret := os.Getenv("TWICONSEC")
-	access_token := os.Getenv("TWIACCTOK")
-	access_token_secret := os.Getenv("TWIACCTOKSEC")
+	consumer_key := quzxutil.GetParameter("TWICONKEY")
+	consumer_secret := quzxutil.GetParameter("TWICONSEC")
+	access_token := quzxutil.GetParameter("TWIACCTOK")
+	access_token_secret := quzxutil.GetParameter("TWIACCTOKSEC")
 
 	anaconda.SetConsumerKey(consumer_key)
 	anaconda.SetConsumerSecret(consumer_secret)

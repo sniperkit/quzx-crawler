@@ -64,6 +64,8 @@ type SOQuestion struct {
 	Question_id        uint32
 	Link               string
 	Title              string
+	Classification	   string
+	Details            string
 }
 
 type SOResponse struct {
