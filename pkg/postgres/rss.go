@@ -143,10 +143,10 @@ func (s *RssFeedRepository) UpdateFeedAfterSync(link string, lastSyncTime int64,
 	tx.Commit()
 }
 
-func (r *RssFeedRepository) SetFeedAsBroken(id int) {
+func (r *RssFeedRepository) SetFeedAsBroken(id int, message string) {
 
 	tx := db.MustBegin()
-	tx.MustExec("UPDATE RssFeed SET Broken = 1 WHERE Id=$1", id)
+	tx.MustExec("UPDATE RssFeed SET Broken=1, BrokenError=$1 WHERE Id=$2", message, id)
 	tx.Commit()
 }
 

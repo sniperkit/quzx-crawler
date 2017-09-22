@@ -333,7 +333,7 @@ func secondLevelClassification(q quzx_crawler.SOQuestion, site string, first str
 		}
 	}
 
-	return ""
+	return "general"
 }
 
 func Classify(q quzx_crawler.SOQuestion, site string) (quzx_crawler.SOQuestion) {

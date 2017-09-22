@@ -39,7 +39,7 @@ func (s *RssFeedService) Fetch() {
 
 			if err != nil {
 				logging.LogInfo(err.Error())
-				(&postgres.RssFeedRepository{}).SetFeedAsBroken(db_feed.Id)
+				(&postgres.RssFeedRepository{}).SetFeedAsBroken(db_feed.Id, err.Error())
 			} else {
 				(&postgres.RssFeedRepository{}).UpdateFeedBeforeSync(f.Title, f.Description, f.UpdateURL,
 					f.Image.Title, f.Image.URL, f.Image.Height, f.Image.Width, time.Now().Unix(), db_feed.Id)

@@ -27,6 +27,7 @@ type RssFeed struct {
 	LimitFull        int
 	LimitHeadersOnly int
 	Broken           int
+	BrokenError		 string
 }
 
 type RssItem struct {

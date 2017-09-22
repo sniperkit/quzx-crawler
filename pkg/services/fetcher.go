@@ -7,6 +7,7 @@ import (
 
 	"github.com/demas/cowl-go/pkg/logging"
 	"github.com/demas/cowl-go/pkg/quzxutil"
+	"fmt"
 )
 
 func doEvery(d time.Duration, f func()) {
@@ -19,7 +20,7 @@ func doEvery(d time.Duration, f func()) {
 }
 
 func heartBeat() {
-	println("working...")
+	fmt.Println("working...")
 }
 
 func FetchNews() {
