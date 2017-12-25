@@ -32,6 +32,7 @@ type RssFeed struct {
 	LimitFull        int    `db:"limitfull"`
 	LimitHeadersOnly int    `db:"limitheadersonly"`
 	Broken           int    `db:"broken"`
+	BrokenError      string `db:"brokenerror"`
 }
 
 // Returns ORDER BY clause to get RssItems

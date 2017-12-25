@@ -37,14 +37,12 @@ func FetchNews() {
 	} else {
 
 		go doEvery(time.Minute*time.Duration(syncInterval), (&StackOverflowService{}).Fetch)
-		go doEvery(time.Minute*time.Duration(30), (&RssFeedService{}).Fetch)
+		//go doEvery(time.Minute*time.Duration(30), (&RssFeedService{}).Fetch)
+		//go doEvery(time.Minute*time.Duration(30), (&HackerNewsService{}).Fetch)
 
 		// каждые 30 минут спрашиваем 1000 самых удачных вопросов за последние 3 дня
 		// go doEvery(time.Minute*30, (&StackOverflowService{}).FetchVotedQuestions)
 		doEvery(time.Minute*60, heartBeat)
-
-
-		//(&HackerNewsService{}).Fetch()
 		//(&StackOverflowService{}).RemoveOldQuestions()
 	}
 }

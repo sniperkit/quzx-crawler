@@ -30,7 +30,8 @@ func insertRssFeed(url string) {
 		"import",
 		100,
 		100,
-		0}
+		0,
+		""}
 
 	_, err := (&postgres.RssFeedRepository{}).GetRssFeedByUrl(url)
 	if err != nil {

@@ -5,12 +5,10 @@ import (
 	"fmt"
 )
 
-// TODO: elasticsearch
-
 var stop_tags = []string{"php", "django", "cuda", "ionic2", "ionic-framework", "cordova", "wordpress", "laravel", "winforms", "mysql", "forms", "unity3d",
 	"google-app-engine", "kendo-grid", "angularfire2", "firebase", "electron", "facebook", "pascal", "office365", "salesforce", "crm",
 	"knockout.js", "lodash", "extjs", "swing", "javafx", "groovy", "neo4j", "google-cloud-storage", "pygame", "scene2d", "tkinter", "wildfly-9",
-	"twilio", "tfs", "tfs2017", "jquery", "struts2", "kendo-ui", "vue.js", "vuejs2", "sharepoint", "vbscript", "dynamics-crm", "angularjs",
+	"twilio", "tfs", "tfs2017", "jquery", "struts2", "kendo-ui", "vue.js", "vuejs2", "sharepoint", "vbscript", "dynamics-crm",
 	"sap", "highcharts", "three.js", "d3.js", "ember.js", "vba", "sharepoint-2010", "vb.net", "amazon-web-services", "excel", "devexpress",
 	"datagridview", "crystal-reports", "google-apps-script", "charts.js", "signalr", "carousel", "firebase-cloud-messaging", "word",
 	"cloudkit", "facebook-graph-api", "amazon-web-services", "gruntjs", "regex", "handlebars.js", "google-apps-script",
@@ -48,6 +46,10 @@ var firstLevelRules = []flr	{
 		{ "codereview", "*", "code review" },
 		{ "softwareengineering" ,"unit-testing" ,"unit-testing" },
 		{ "softwareengineering" ,"design" ,"software-desing" },
+		{ "stackoverflow" ,"elasticsearch" ,"bigdata" },
+		{ "stackoverflow" ,"cassandra" ,"bigdata" },
+		{ "stackoverflow" ,"apache-kafka" ,"bigdata" },
+		{ "stackoverflow" ,"rabbitmq" ,"bigdata" },
 		{ "stackoverflow" ,"iis" ,"devops" },
 		{ "stackoverflow" ,"nginx" ,"devops" },
 		{ "stackoverflow" ,"unit-testing" ,"unit-testing" },
@@ -58,10 +60,7 @@ var firstLevelRules = []flr	{
 		{ "stackoverflow" ,"postgresql" ,"postgresql" },
 		{ "stackoverflow" ,"mongodb" ,"mongodb" },
 		{ "stackoverflow" ,"clojure" ,"clojure" },
-		{ "stackoverflow" ,"elasticsearch" ,"bigdata" },
-		{ "stackoverflow" ,"cassandra" ,"bigdata" },
-		{ "stackoverflow" ,"apache-kafka" ,"bigdata" },
-		{ "stackoverflow" ,"rabbitmq" ,"bigdata" },
+		{ "stackoverflow" ,"angular" ,"angular2" },
 		{ "stackoverflow" ,"angular2" ,"angular2" },
 		{ "stackoverflow" ,"angular4" ,"angular2" },
 		{ "stackoverflow" ,"angular5" ,"angular2" },
@@ -266,6 +265,9 @@ var secondLevelRules = []slr{
 	{"stackoverflow", "docker", "docker-swarm", "swarm"},
 	{"stackoverflow", "docker", "swarm", "swarm"},
 	{"stackoverflow", "typescript", "types", "types"},
+	{"stackoverflow", "bigdata", "elasticsearch", "elasticsearch"},
+	{"stackoverflow", "bigdata", "apache-kafka", "kafka"},
+	{"stackoverflow", "bigdata", "rabbitmq", "rabbitmq"},
 	{"security", "information security", "certificates", "certificates"},
 	{"security", "information security", "tls", "certificates"},
 	{"security", "information security", "openssl", "certificates"},
@@ -354,6 +356,7 @@ func Classify(q quzx_crawler.SOQuestion, site string) (quzx_crawler.SOQuestion) 
 		fmt.Println("Classificator: stop tag - " + stop_tag)
 		q.Classification = "remove"
 		q.Details = "remove"
+		return q
 	}
 
 	flr := firstLevelClassification(q, site)
