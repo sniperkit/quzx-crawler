@@ -1,0 +1,12 @@
+version: '2.2'
+services:
+  crawler:
+    image: quzx-crawler
+    container_name: quzx-crawler
+    environment:
+      - SOKEY=
+  api:
+    image: quzx-api
+    container_name: quzx-api
+    ports:
+      - 4000:4000
