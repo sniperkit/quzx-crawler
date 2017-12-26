@@ -24,7 +24,8 @@ const soBaseUrl = "https://api.stackexchange.com/2.2/questions?page=%d&pagesize=
 const votesUrl = "https://api.stackexchange.com/2.2/questions?page=%d&pagesize=100&fromdate=%d&order=desc&sort=votes&&site=stackoverflow%s"
 const removeOldQuestionsInterval = -7 * 24 * time.Hour
 
-var soSites = [5]string{"stackoverflow", "security", "codereview", "softwareengineering", "ru.stackoverflow"}
+var soSites = [8]string{"stackoverflow", "security", "codereview", "softwareengineering", "ru.stackoverflow", "superuser",
+	"unix", "serverfault"}
 
 func (s *StackOverflowService) key() string {
 

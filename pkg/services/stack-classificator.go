@@ -42,6 +42,9 @@ type flr struct {
 }
 
 var firstLevelRules = []flr	{
+		{"superuser", "*", "superuser"},
+		{"serverfault", "*", "administration"},
+		{"unix", "*", "unix"},
 		{"ru.stackoverflow", "*", "russian"},
 		{"security", "*", "information security"},
 		{ "codereview", "*", "code review" },
@@ -109,6 +112,14 @@ type slr struct {
 }
 
 var secondLevelRules = []slr{
+	{"superuser", "superuser", "linux", "linux"},
+	{"superuser", "superuser", "windows-10", "windows-10"},
+	{"superuser", "superuser", "networking", "networking"},
+	{"serverfault", "administration", "linux", "linux"},
+	{"serverfault", "administration", "nginx", "nginx"},
+	{"serverfault", "administration", "iis", "iis"},
+	{"serverfault", "administration", "powershell", "powershell"},
+	{"unix", "unix", "linux", "linux"},
 	{"ru.stackoverflow", "russian", "java", "java"},
 	{"ru.stackoverflow", "russian", "c#", "csharp"},
 	{"ru.stackoverflow", "russian", "sql-server", "sql-server"},
@@ -273,6 +284,7 @@ var secondLevelRules = []slr{
 	{"stackoverflow", "bigdata", "elasticsearch", "elasticsearch"},
 	{"stackoverflow", "bigdata", "apache-kafka", "kafka"},
 	{"stackoverflow", "bigdata", "rabbitmq", "rabbitmq"},
+	{"stackoverflow", "bigdata", "cassandra", "cassandra"},
 	{"security", "information security", "certificates", "certificates"},
 	{"security", "information security", "tls", "certificates"},
 	{"security", "information security", "openssl", "certificates"},
