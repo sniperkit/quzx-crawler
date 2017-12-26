@@ -42,6 +42,7 @@ type flr struct {
 }
 
 var firstLevelRules = []flr	{
+		{"ru.stackoverflow", "*", "russian"},
 		{"security", "*", "information security"},
 		{ "codereview", "*", "code review" },
 		{ "softwareengineering" ,"unit-testing" ,"unit-testing" },
@@ -108,6 +109,10 @@ type slr struct {
 }
 
 var secondLevelRules = []slr{
+	{"ru.stackoverflow", "russian", "java", "java"},
+	{"ru.stackoverflow", "russian", "c#", "csharp"},
+	{"ru.stackoverflow", "russian", "sql-server", "sql-server"},
+	{"ru.stackoverflow", "russian", "git", "git"},
 	{"stackoverflow", "azure", "azure-functions", "azure-functions"},
 	{"stackoverflow", "azure", "machine-learning", "machine-learning"},
 	{"stackoverflow", "azure", "azure-web-sites", "web-sites"},
