@@ -33,7 +33,7 @@ var stop_tags = []string{"php", "django", "cuda", "ionic2", "ionic-framework", "
 	"bacon.js", "thymeleaf", "zebble", "gatt", "docusign", "signalr-hub", "aleagpu", "google-api", "paypal-ipn", "pdfsharp", "yii2", "qweb",
 	"dojo", "ms-word", "tampermonkey", "jira", "sapui5", "jszip", "google-form", "jqgrid", "deployd", "sinatra", "mediaelement.js", "jwplayer",
 	"ckeditor", "accordion", "masonry", "shopify", "google-drive-sdk", "whatsapp", "slick.js", "tinymce", "skulpt", "ormlite-servicestack",
-	"postgis", "pgadmin-4", "pgadmin", "eclipselink", "oozie", "ibm-bluemix" }
+	"postgis", "pgadmin-4", "pgadmin", "eclipselink", "oozie", "ibm-bluemix", "битрикс" }
 
 type flr struct {
 	Site string
@@ -124,6 +124,7 @@ var secondLevelRules = []slr{
 	{"ru.stackoverflow", "russian", "c#", "csharp"},
 	{"ru.stackoverflow", "russian", "sql-server", "sql-server"},
 	{"ru.stackoverflow", "russian", "git", "git"},
+	{"ru.stackoverflow", "russian", "javascript", "javascript"},
 	{"stackoverflow", "azure", "azure-functions", "azure-functions"},
 	{"stackoverflow", "azure", "machine-learning", "machine-learning"},
 	{"stackoverflow", "azure", "azure-web-sites", "web-sites"},
@@ -278,6 +279,10 @@ var secondLevelRules = []slr{
 	{"stackoverflow", "git", "rebase", "rebase"},
 	{"stackoverflow", "git", "gitlab", "gitlab"},
 	{"stackoverflow", "git", "github", "github"},
+	{"stackoverflow" ,"machine-learning" ,"tensorflow", "tensorflow" },
+	{"stackoverflow" ,"machine-learning" ,"ntlk", "ntlk" },
+	{"stackoverflow" ,"machine-learning" ,"neural-network", "neural-network" },
+	{"stackoverflow" ,"machine-learning" ,"nlp", "nlp" },
 	{"stackoverflow", "docker", "docker-swarm", "swarm"},
 	{"stackoverflow", "docker", "swarm", "swarm"},
 	{"stackoverflow", "typescript", "types", "types"},
