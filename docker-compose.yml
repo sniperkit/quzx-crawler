@@ -1,0 +1,20 @@
+version: '2.2'
+services:
+  crawler:
+    image: quzx
+    container_name: quzx-crawler
+    environment:
+      - SOKEY=
+  api:
+    image: quzx
+    container_name: quzx-api
+    command: --operation=fetch-rss
+    ports:
+      - 4000:4000
+  web:
+    image: sameersbn/nginx
+    container_name: quzx-web
+    volumes:
+      - /mnt/qnap/quzx/web-dist:/usr/share/nginx/html
+    ports:
+      - 8085:80
