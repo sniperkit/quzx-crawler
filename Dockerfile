@@ -1,1 +1,13 @@
-FROM golang:1.6-onbuild
+FROM golang
+
+ADD . /go/src/github.com/demas/cowl-go
+
+RUN go get github.com/demas/cowl-go
+
+RUN go install github.com/demas/cowl-go
+
+ENTRYPOINT ["/go/bin/cowl-go"]
+
+CMD ["--operation=serve-rest-api"]
+
+EXPOSE 4000
