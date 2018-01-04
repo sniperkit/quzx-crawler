@@ -18,7 +18,10 @@ func main() {
 	// parse command line arguments
 	operation := flag.String("operation", "", "filename")
 	filename := flag.String("filename", "", "filename")
+
 	flag.Parse()
+
+	fmt.Println(*operation)
 
 	switch *operation {
 
