@@ -7,6 +7,7 @@ import (
 	"github.com/demas/cowl-go/pkg/logging"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"github.com/demas/cowl-go/pkg/rest-api/quzx"
+
 )
 
 // represent a PostgreSQL implementation of quzx_crawler.StackOverflowRepository
@@ -55,7 +56,7 @@ func (r *StackOverflowRepository) InsertSOQuestion(question *quzx_crawler.SOQues
 		site)
 
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 
 	var id int = 0
@@ -85,7 +86,7 @@ func (r *StackOverflowRepository) UpdateSOQuestion(question *quzx_crawler.SOQues
 		question.Question_id)
 
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 
 	tx.Commit()
@@ -98,13 +99,13 @@ func (r *StackOverflowRepository) RemoveOldQuestions(fromTime int64) error {
 	deleteQuery := `DELETE FROM StackQuestions WHERE Classification = '' AND CreationDate < $1`
 	_, err := tx.Exec(deleteQuery, fromTime)
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 
 	deleteQuery = `DELETE FROM StackQuestions WHERE READED = 1`
 	_, err = tx.Exec(deleteQuery)
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 
 	tx.Commit()
@@ -119,7 +120,7 @@ func (r *StackOverflowRepository) DeleteAllQuestions() error {
 	deleteQuery := `DELETE FROM StackQuestions`
 	_, err := tx.Exec(deleteQuery)
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 
 	tx.Commit()
@@ -139,7 +140,7 @@ func (r *StackOverflowRepository) InsertStackTag(tag *quzx_crawler.StackTag) int
 	rows, err := tx.Query(insertQuery, tag.Classification, tag.Unreaded, tag.Hidden)
 
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 
 	var id int = 0
@@ -181,7 +182,7 @@ func (r *StackOverflowRepository) DeleteAllStackTags() error {
 	deleteQuery := `DELETE FROM StackTags`
 	_, err := tx.Exec(deleteQuery)
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 
 	tx.Commit()

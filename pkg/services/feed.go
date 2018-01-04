@@ -20,7 +20,7 @@ func (s *RssFeedService) fetchFunc(url string) (resp *http.Response, err error) 
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		logging.LogInfo("reddit: cannot fetch url " + url)
+		logging.PostgreLog{}.LogInfo("reddit: cannot fetch url " + url)
 	}
 
 	req.Header.Set("User-Agent", userAgent)
@@ -34,11 +34,11 @@ func (s *RssFeedService) Fetch() {
 
 		if db_feed.LastSyncTime+int64(db_feed.SyncInterval) < time.Now().Unix() {
 
-			logging.LogInfo("fetch rss: " + db_feed.Link)
+			logging.PostgreLog{}.LogInfo("fetch rss: " + db_feed.Link)
 			f, err := rss.FetchByFunc(s.fetchFunc, db_feed.Link)
 
 			if err != nil {
-				logging.LogInfo(err.Error())
+				logging.PostgreLog{}.LogInfo(err.Error())
 				(&postgres.RssFeedRepository{}).SetFeedAsBroken(db_feed.Id, err.Error())
 			} else {
 				(&postgres.RssFeedRepository{}).UpdateFeedBeforeSync(f.Title, f.Description, f.UpdateURL,

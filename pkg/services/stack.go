@@ -45,18 +45,18 @@ func (s *StackOverflowService) getNewMassages(fromTime int64, site string) []quz
 	for has_more && page <= maxSOPages {
 
 		url := fmt.Sprintf(soBaseUrl, page, fromTime, site, s.key())
-		logging.LogInfo("(n) " + url)
+		logging.PostgreLog{}.LogInfo("(n) " + url)
 
 		// fetch data
 		res, err := http.Get(url)
 		if err != nil {
-			logging.LogError(err.Error())
+			logging.PostgreLog{}.LogError(err.Error())
 		}
 
 		jsn, err := ioutil.ReadAll(res.Body)
 		res.Body.Close()
 		if err != nil {
-			logging.LogError(err.Error())
+			logging.PostgreLog{}.LogError(err.Error())
 		}
 
 		// decode
@@ -64,7 +64,7 @@ func (s *StackOverflowService) getNewMassages(fromTime int64, site string) []quz
 
 		err = json.Unmarshal(jsn, &p)
 		if err != nil {
-			logging.LogError(err.Error())
+			logging.PostgreLog{}.LogError(err.Error())
 		} else {
 			result = append(result, p.Items...)
 		}
@@ -83,23 +83,23 @@ func (s *StackOverflowService) getVotedQuestions() []quzx_crawler.SOQuestion {
 
 	var fromTime int64
 	fromTime = time.Now().Add(-24 * time.Hour * 3).Unix()
-	logging.LogInfo("=== fetch voted messages")
+	logging.PostgreLog{}.LogInfo("=== fetch voted messages")
 
 	for page := 1; page <= 10; page ++ {
 
 		url := fmt.Sprintf(votesUrl, page, fromTime, s.key())
-		logging.LogInfo("(v) " + url)
+		logging.PostgreLog{}.LogInfo("(v) " + url)
 
 		// fetch data
 		res, err := http.Get(url)
 		if err != nil {
-			logging.LogError(err.Error())
+			logging.PostgreLog{}.LogError(err.Error())
 		}
 
 		jsn, err := ioutil.ReadAll(res.Body)
 		res.Body.Close()
 		if err != nil {
-			logging.LogError(err.Error())
+			logging.PostgreLog{}.LogError(err.Error())
 		}
 
 		// decode
@@ -107,7 +107,7 @@ func (s *StackOverflowService) getVotedQuestions() []quzx_crawler.SOQuestion {
 
 		err = json.Unmarshal(jsn, &p)
 		if err != nil {
-			logging.LogError(err.Error())
+			logging.PostgreLog{}.LogError(err.Error())
 		} else {
 			result = append(result, p.Items...)
 		}

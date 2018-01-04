@@ -24,6 +24,6 @@ func init() {
 
 	db, err = sqlx.Open("postgres", connectionString)
 	if err != nil {
-		logging.LogError(err.Error())
+		logging.PostgreLog{}.LogError(err.Error())
 	}
 }

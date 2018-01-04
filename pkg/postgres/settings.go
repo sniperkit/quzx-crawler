@@ -35,7 +35,7 @@ func (r *SettingsRepository) SetSettings(key string, value string) {
 
 	_, err := tx.Exec(query, key, value)
 	if err != nil {
-		logging.LogError(err.Error())
+		logging.PostgreLog{}.LogError(err.Error())
 	}
 
 	tx.Commit()

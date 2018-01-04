@@ -17,7 +17,7 @@ func (r *RssFeedRepository) GetFeeds() []quzx_crawler.RssFeed {
 
 	err := db.Select(&feeds, "SELECT * FROM RssFeed")
 	if err != nil {
-		logging.LogError(err.Error())
+		logging.PostgreLog{}.LogError(err.Error())
 	}
 
 	return feeds
@@ -80,7 +80,7 @@ func (s *RssFeedRepository) InsertRssFeed(feed *quzx.RssFeed) int {
 		feed.Broken)
 
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 
 	var feedId int = 0
@@ -138,7 +138,7 @@ func (s *RssFeedRepository) UpdateFeedAfterSync(link string, lastSyncTime int64,
 		id)
 
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 	tx.Commit()
 }
@@ -155,7 +155,7 @@ func (s *RssFeedRepository) SetRssFeedAsReaded(feedId int) {
 	tx := db.MustBegin()
 	_, err := tx.Exec("UPDATE RssItem SET READED = 1 WHERE FeedId = $1", feedId)
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 	tx.Commit()
 }
@@ -165,11 +165,11 @@ func (s *RssFeedRepository) UnsubscribeRssFeed(feedId int) {
 	tx := db.MustBegin()
 	_, err := tx.Exec("DELETE FROM RssItem WHERE FeedId = $1", feedId)
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 	_, err = tx.Exec("DELETE FROM RssFeed WHERE Id = $1", feedId)
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 	tx.Commit()
 }
@@ -179,7 +179,7 @@ func (s *RssFeedRepository) GetRssItemsByFeedId(feed_id int) ([]*quzx.RssItem, e
 	var feed quzx.RssFeed
 	feed, err := s.GetRssFeedById(feed_id)
 	if err != nil {
-		logging.LogError(err.Error())
+		logging.PostgreLog{}.LogError(err.Error())
 	}
 
 	strOrder := feed.OrderByClause()
@@ -189,7 +189,7 @@ func (s *RssFeedRepository) GetRssItemsByFeedId(feed_id int) ([]*quzx.RssItem, e
 
 	err = db.Select(&result, selectItemsQuery, feed_id, limit)
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 
 	return result, err
@@ -202,7 +202,7 @@ func (s *RssFeedRepository) GetRssItemById(id int) (*quzx.RssItem, error) {
 
 	err := db.Get(&result, selectItemsQuery, id)
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 
 	return &result, err
@@ -229,7 +229,7 @@ func (r *RssFeedRepository) InsertRssItem(feed_id int, i *rss.Item) int {
 		0)
 
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 		tx.Rollback()
 		return 0
 	} else {
@@ -250,7 +250,7 @@ func (s *RssFeedRepository) SetRssItemAsReaded(id int) {
 	tx := db.MustBegin()
 	_, err := tx.Exec("UPDATE RssItem SET READED = 1 WHERE Id = $1", id)
 	if err != nil {
-		logging.LogInfo(err.Error())
+		logging.PostgreLog{}.LogInfo(err.Error())
 	}
 	tx.Commit()
 }

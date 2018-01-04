@@ -32,7 +32,7 @@ func FetchNews() {
 
 	syncInterval, err := strconv.Atoi(quzxutil.GetParameter("SYNCINTERVAL"))
 	if err != nil {
-		logging.LogInfo("SYNCINTERVAL was not defined")
+		logging.PostgreLog{}.LogInfo("SYNCINTERVAL was not defined")
 		panic(err)
 	} else {
 

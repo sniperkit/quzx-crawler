@@ -46,7 +46,7 @@ func (s *HackerNewsService) getMessagesIds() ([]int64, error) {
 
 func (s *HackerNewsService) fetchNews(id int64) (*quzx_crawler.HackerNews, error) {
 
-	logging.LogInfo("fetching from hacker news: " + fmt.Sprintf(newsUrl, id))
+	logging.PostgreLog{}.LogInfo("fetching from hacker news: " + fmt.Sprintf(newsUrl, id))
 	res, err := http.Get(fmt.Sprintf(newsUrl, id))
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (s *HackerNewsService) Fetch() {
 
 	ids, err := s.getMessagesIds()
 	if err != nil {
-		logging.LogError(err.Error())
+		logging.PostgreLog{}.LogError(err.Error())
 	}
 
 	for _, id := range ids {
@@ -89,7 +89,7 @@ func (s *HackerNewsService) Fetch() {
 
 			news, err := s.fetchNews(id)
 			if err != nil {
-				logging.LogInfo(err.Error())
+				logging.PostgreLog{}.LogInfo(err.Error())
 			}
 			(&postgres.HackerNewsRepository{}).InsertNews(*news)
 		}

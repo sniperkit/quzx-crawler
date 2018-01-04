@@ -11,6 +11,8 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+type PostgreLog struct {}
+
 var db *sqlx.DB
 
 func init() {
@@ -30,7 +32,7 @@ func init() {
 	}
 }
 
-func InsertLogMessage(message quzx_crawler.LogMessage) {
+func (lg PostgreLog) InsertLogMessage(message quzx_crawler.LogMessage) {
 
 	tx := db.MustBegin()
 
@@ -50,17 +52,17 @@ func InsertLogMessage(message quzx_crawler.LogMessage) {
 	tx.Commit()
 }
 
-func LogInfo(message string) {
+func (lg PostgreLog) LogInfo(message string) {
 
-	LogMessage(quzx_crawler.LogMessage{Moment: time.Now().Unix(), Application: "crawler", Level: 5, Message: message})
+	lg.LogMessage(quzx_crawler.LogMessage{Moment: time.Now().Unix(), Application: "crawler", Level: 5, Message: message})
 }
 
-func LogError(message string) {
+func (lg PostgreLog) LogError(message string) {
 
-	LogMessage(quzx_crawler.LogMessage{Moment: time.Now().Unix(), Application: "crawler", Level: 1, Message: message})
+	lg.LogMessage(quzx_crawler.LogMessage{Moment: time.Now().Unix(), Application: "crawler", Level: 1, Message: message})
 }
 
-func LogMessage(message quzx_crawler.LogMessage) {
+func (lg PostgreLog) LogMessage(message quzx_crawler.LogMessage) {
 
 	//InsertLogMessage(message)
 
