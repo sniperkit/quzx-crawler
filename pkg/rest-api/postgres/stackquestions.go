@@ -28,6 +28,8 @@ func (s *StackService) GetSecondTagByClassification(classification string) (inte
 
 func (s *StackService) GetStackQuestionsByClassification(classification string) ([]*quzx.StackQuestion, error) {
 
+	log.Println("We are here !!!!!!!!!!!!!!!!!!!!!!!!")
+
 	// TODO: обработка ошибок
 	var result []*quzx.StackQuestion
 	grm.Where("classification = ? and readed = 0", classification).Order("score desc").Find(result)
@@ -38,7 +40,7 @@ func (s *StackService) GetStackQuestionsByClassificationAndDetails(classificatio
 
 	// TODO: обработка ошибок
 	var result []*quzx.StackQuestion
-	grm.Where("classification = ? and details = ? and readed = 0").
+	grm.Where("classification = ? and details = ? and readed = 0", classification, details).
 		Order("score desc").Limit(15).Find(result)
 	return result, nil
 }
@@ -53,14 +55,7 @@ func (s *StackService) SetStackQuestionAsReaded(question_id int) {
 
 func (s *StackService) SetStackQuestionsAsReadedByClassification(classification string) {
 
-	updateQuery := `UPDATE StackQuestions SET READED = 1 WHERE Classification = $1`
-
-	tx := db.MustBegin()
-	_, err := tx.Exec(updateQuery, classification)
-	if err != nil {
-		log.Println(err)
-	}
-	tx.Commit()
+	grm.Model(quzx.StackQuestion{}).Where("classification = ?", classification).UpdateColumn("readed", 1)
 }
 
 func (s *StackService) SetStackQuestionsAsReadedByClassificationFromTime(classification string, t int64) {
