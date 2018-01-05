@@ -28,7 +28,9 @@ func (s *StackService) GetSecondTagByClassification(classification string) (inte
 
 func (s *StackService) GetStackQuestionsByClassification(classification string) ([]*quzx.StackQuestion, error) {
 
-	result := []*quzx.StackQuestion{}
+	var result []*quzx.StackQuestion
+	grm.Where("classification = ? and readed = 0", classification).Order("score desc").Find(result)
+/*
 	selectQuery := `SELECT Id, Title, Link, QuestionId, Tags, CreationDate, Classification, Details,
  			      	       Favorite, Classified, Score, AnswerCount, ViewCount
 	                FROM StackQuestions
@@ -60,7 +62,9 @@ func (s *StackService) GetStackQuestionsByClassification(classification string) 
 		}
 	}
 
-	return result, err
+	return result, err */
+	// TODO: обработка ошибок
+	return result, nil
 }
 
 func (s *StackService) GetStackQuestionsByClassificationAndDetails(classification string, details string) ([]*quzx.StackQuestion, error) {

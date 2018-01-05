@@ -6,9 +6,12 @@ import (
 	"log"
 	"fmt"
 	"github.com/demas/cowl-go/pkg/quzxutil"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 var db *sqlx.DB
+var grm *gorm.DB
 
 func init() {
 
@@ -22,6 +25,11 @@ func init() {
 		quzxutil.GetParameter("DBNAME"))
 
 	db, err = sqlx.Open("postgres", connectionString)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	grm, err = gorm.Open("postgres", "host=192.168.1.71 user=root dbname=rss sslmode=disable password=root")
 	if err != nil {
 		log.Fatal(err)
 	}
