@@ -28,89 +28,27 @@ func (s *StackService) GetSecondTagByClassification(classification string) (inte
 
 func (s *StackService) GetStackQuestionsByClassification(classification string) ([]*quzx.StackQuestion, error) {
 
+	// TODO: обработка ошибок
 	var result []*quzx.StackQuestion
 	grm.Where("classification = ? and readed = 0", classification).Order("score desc").Find(result)
-/*
-	selectQuery := `SELECT Id, Title, Link, QuestionId, Tags, CreationDate, Classification, Details,
- 			      	       Favorite, Classified, Score, AnswerCount, ViewCount
-	                FROM StackQuestions
-			        WHERE Classification = $1 and Readed = 0
-			        ORDER BY Score DESC
-			        LIMIT 15`
-
-	rows, err := db.Query(selectQuery, classification)
-
-	if err != nil {
-		log.Println(err)
-	} else {
-		for rows.Next() {
-			q := quzx.StackQuestion{}
-			rows.Scan(&q.Id,
-				&q.Title,
-				&q.Link,
-				&q.QuestionId,
-				&q.Tags,
-				&q.CreationDate,
-				&q.Classification,
-				&q.Details,
-				&q.Favorite,
-				&q.Classified,
-				&q.Score,
-				&q.AnswerCount,
-				&q.ViewCount)
-			result = append(result, &q)
-		}
-	}
-
-	return result, err */
-	// TODO: обработка ошибок
 	return result, nil
 }
 
 func (s *StackService) GetStackQuestionsByClassificationAndDetails(classification string, details string) ([]*quzx.StackQuestion, error) {
 
-	result := []*quzx.StackQuestion{}
-	selectQuery := `SELECT Id, Title, Link, QuestionId, Tags, CreationDate, Classification, Details,
-			       Favorite, Classified
-			FROM StackQuestions
-			WHERE Classification = $1 AND Details = $2 AND Readed = 0
-			ORDER BY Score DESC
-			LIMIT 15`
-
-	rows, err := db.Query(selectQuery, classification, details)
-
-	if err != nil {
-		log.Println(err)
-	} else {
-		for rows.Next() {
-			q := quzx.StackQuestion{}
-			rows.Scan(&q.Id,
-				&q.Title,
-				&q.Link,
-				&q.QuestionId,
-				&q.Tags,
-				&q.CreationDate,
-				&q.Classification,
-				&q.Details,
-				&q.Favorite,
-				&q.Classified)
-			result = append(result, &q)
-		}
-	}
-
-	return result, err
+	// TODO: обработка ошибок
+	var result []*quzx.StackQuestion
+	grm.Where("classification = ? and details = ? and readed = 0").
+		Order("score desc").Limit(15).Find(result)
+	return result, nil
 }
 
 func (s *StackService) SetStackQuestionAsReaded(question_id int) {
 
-	updateQuery := `UPDATE StackQuestions SET READED = 1 WHERE QuestionId = $1`
-
-	tx := db.MustBegin()
-	_, err := tx.Exec(updateQuery, question_id)
-	if err != nil {
-		log.Println(err)
-	}
-	tx.Commit()
+	var question quzx.StackQuestion
+	grm.Find(&question, question_id)
+	question.Readed = 1
+	grm.Save(&question)
 }
 
 func (s *StackService) SetStackQuestionsAsReadedByClassification(classification string) {
