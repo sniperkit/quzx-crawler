@@ -1,5 +1,7 @@
 package quzx_crawler
 
+import "github.com/jinzhu/gorm"
+
 type Settings struct {
 	Name  string
 	Value string
@@ -77,7 +79,10 @@ type SOResponse struct {
 }
 
 type StackTag struct {
-	Classification string
+	gorm.Model
+
+	Id 			   int `gorm:"AUTO_INCREMENT"`
+	Classification string `gorm:"size:40"`
 	Unreaded       int
 	Hidden         int
 }

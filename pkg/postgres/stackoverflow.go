@@ -1,13 +1,12 @@
 package postgres
 
 import (
-	"log"
+
 	"strings"
 
 	"github.com/demas/cowl-go/pkg/logging"
 	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"github.com/demas/cowl-go/pkg/rest-api/quzx"
-
 )
 
 // represent a PostgreSQL implementation of quzx_crawler.StackOverflowRepository
@@ -155,24 +154,11 @@ func (r *StackOverflowRepository) InsertStackTag(tag *quzx_crawler.StackTag) int
 
 func (r *StackOverflowRepository) GetStackTags() ([]*quzx_crawler.StackTag, error) {
 
-	selectQuery := `SELECT Classification, Unreaded
-	                FROM StackTags
-	                WHERE Unreaded > 0 and Hidden = 0`
-
 	result := []*quzx_crawler.StackTag{}
-	rows, err := db.Query(selectQuery)
+	grm.Where("unreaded = 0 and hidden = 0").Find(&result)
 
-	if err != nil {
-		log.Println(err)
-	} else {
-		for rows.Next() {
-			q := quzx_crawler.StackTag{}
-			rows.Scan(&q.Classification, &q.Unreaded)
-			result = append(result, &q)
-		}
-	}
-
-	return result, err
+	// TODO: надо посмотреть что тут с обработкой ошибок
+	return result, nil
 }
 
 func (r *StackOverflowRepository) DeleteAllStackTags() error {
