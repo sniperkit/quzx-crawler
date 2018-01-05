@@ -1,5 +1,9 @@
 package quzx
 
+import (
+	"golang.org/x/crypto/openpgp/packet"
+	"gopkg.in/olivere/elastic.v5"
+)
 
 type UserCredentials struct {
 	Username string `json:"username"`
@@ -80,19 +84,25 @@ type HackerNews struct {
 }
 
 type StackQuestion struct {
-	Id             int    `json:"id"`
-	Title          string `json:"title"`
-	Link           string `json:"link"`
-	QuestionId     int    `json:"questionid"`
-	Tags           string `json:"tags"`
-	CreationDate   int64  `json:"creationdate"`
-	Classification string `json:"classification"`
-	Details        string `json:"details"`
-	Favorite       int    `json:"favorite"`
-	Classified     int    `json:"classified"`
-	Score          int    `json:"score"`
-	AnswerCount    int    `json:"answercount"`
-	ViewCount      int    `json:"viewcount"`
+	Id               int    `json:"id" gorm:"AUTO_INCREMENT"`
+	Title            string `json:"title" gorm:"size:500"`
+	Link             string `json:"link" gorm:"size:500"`
+	QuestionId       int    `json:"questionid"`
+	Tags             string `json:"tags" gorm:"size:300"`
+	Score            int    `json:"score"`
+	AnswerCount      int    `json:"answercount"`
+	ViewCount        int    `json:"viewcount"`
+	UserId           int	`json:"userid"`
+	UserReputation   int 	`json:"userreputation"`
+	UserDisplayName  string `json:"userdisplayname" gorm:"size:200"`
+	UserProfileImage string `json:"userprofileimage" gorm:"size:100"`
+	Classification   string `json:"classification" gorm:"size:40"`
+	Details          string `json:"details" gorm:"size:40"`
+	Readed 			 int    `json:"readed"`
+	CreationDate     int64  `json:"creationdate"`
+	Favorite         int    `json:"favorite"`
+	Classified       int    `json:"classified"`
+	Site             string `json:"site" gorm:"size:100"`
 }
 
 type Tag struct {

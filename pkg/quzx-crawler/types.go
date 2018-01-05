@@ -56,6 +56,7 @@ type SOUser struct {
 }
 
 type SOQuestion struct {
+
 	Tags               []string
 	Owner              SOUser
 	Is_answered        bool
