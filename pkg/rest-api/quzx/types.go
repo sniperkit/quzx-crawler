@@ -1,10 +1,5 @@
 package quzx
 
-import (
-	"golang.org/x/crypto/openpgp/packet"
-	"gopkg.in/olivere/elastic.v5"
-)
-
 type UserCredentials struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
