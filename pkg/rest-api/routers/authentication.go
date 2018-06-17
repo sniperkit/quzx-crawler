@@ -2,7 +2,8 @@ package routers
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/demas/cowl-go/pkg/rest-api/controllers"
+
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/controllers"
 )
 
 func SetAuthRoute(router *mux.Router) *mux.Router {

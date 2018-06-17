@@ -1,9 +1,9 @@
 package postgres
 
 import (
-	"github.com/demas/cowl-go/pkg/quzx-crawler"
-	"github.com/demas/cowl-go/pkg/logging"
-	"github.com/demas/cowl-go/pkg/rest-api/quzx"
+	"github.com/sniperkit/quzx-crawler/pkg/logging"
+	"github.com/sniperkit/quzx-crawler/pkg/quzx-crawler"
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/quzx"
 )
 
 // represent a PostgreSQL implementation of quzx_crawler.HackerNewsService
@@ -43,7 +43,7 @@ func (r *HackerNewsRepository) InsertNews(n quzx_crawler.HackerNews) {
 		        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`
 
 	_, err := tx.Exec(insertQuery,
-			  n.Id, n.By, n.Score, n.Time, n.Title, n.Type, n.Url, 0, 0)
+		n.Id, n.By, n.Score, n.Time, n.Title, n.Type, n.Url, 0, 0)
 
 	if err != nil {
 		logging.PostgreLog{}.LogError(err.Error())

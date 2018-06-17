@@ -1,8 +1,9 @@
 package routers
 
 import (
-	"github.com/demas/cowl-go/pkg/rest-api/controllers"
 	"github.com/gorilla/mux"
+
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/controllers"
 )
 
 func InitRoutes() *mux.Router {

@@ -1,13 +1,14 @@
 package tst
 
 import (
-	"testing"
-	"github.com/demas/cowl-go/pkg/postgres"
 	"fmt"
-	"github.com/demas/cowl-services/pkg/quzx"
 	"log"
-	"github.com/SlyMarbo/rss"
+	"testing"
 	"time"
+
+	"github.com/SlyMarbo/rss"
+	"github.com/demas/cowl-services/pkg/quzx"
+	"github.com/sniperkit/quzx-crawler/pkg/postgres"
 )
 
 const FEED_LINK = "www.some-site.com"
@@ -19,27 +20,27 @@ func deleteAllFeeds() {
 
 func insertFeed() int {
 
-	feed := quzx.RssFeed{ 0,
-			      "",
-			      "desc",
-			      FEED_LINK,
-			      "upd_url",
-			      "img_title",
-			      "img_url",
-			      0,
-			      0,
-			      LAST_SYNC_TIME,
-			      0,
-			      0,
-			      100,
-			      "alt_name",
-			      1,
-			      1,
-			      1,
-			      "test",
-			      100,
-			      100,
-			      0 }
+	feed := quzx.RssFeed{0,
+		"",
+		"desc",
+		FEED_LINK,
+		"upd_url",
+		"img_title",
+		"img_url",
+		0,
+		0,
+		LAST_SYNC_TIME,
+		0,
+		0,
+		100,
+		"alt_name",
+		1,
+		1,
+		1,
+		"test",
+		100,
+		100,
+		0}
 
 	return (&postgres.RssFeedRepository{}).InsertRssFeed(&feed)
 }
@@ -128,7 +129,7 @@ func TestUpdateFeedBeforeSync(t *testing.T) {
 	}
 
 	(&postgres.RssFeedRepository{}).UpdateFeedBeforeSync("new_title", "new_description", "", "",
-	"", 0, 0, 20, feedId)
+		"", 0, 0, 20, feedId)
 
 	feed, err = (&postgres.RssFeedRepository{}).GetRssFeedById(feedId)
 	if err != nil {
@@ -208,7 +209,7 @@ func TestInsertAndGetRssItem(t *testing.T) {
 		t.Error(fmt.Sprintf("expected 1, but it was %s instead", len(result)))
 	}
 
-	_ ,err = (&postgres.RssFeedRepository{}).GetRssItemById(itemId)
+	_, err = (&postgres.RssFeedRepository{}).GetRssItemById(itemId)
 	if err != nil {
 		t.Error("Insert and get rss items: something was broken")
 	}
@@ -220,7 +221,7 @@ func TestSetRssItemAsReaded(t *testing.T) {
 	feedId := insertFeed()
 	itemId := insertRssItem(feedId)
 
-	item ,err := (&postgres.RssFeedRepository{}).GetRssItemById(itemId)
+	item, err := (&postgres.RssFeedRepository{}).GetRssItemById(itemId)
 	if err != nil {
 		t.Error("Set rss item as readed: something was broken")
 	}
@@ -231,7 +232,7 @@ func TestSetRssItemAsReaded(t *testing.T) {
 
 	(&postgres.RssFeedRepository{}).SetRssItemAsReaded(itemId)
 
-	item ,err = (&postgres.RssFeedRepository{}).GetRssItemById(itemId)
+	item, err = (&postgres.RssFeedRepository{}).GetRssItemById(itemId)
 	if err != nil {
 		t.Error("Set rss item as readed: something was broken")
 	}
@@ -256,7 +257,7 @@ func TestSetRssFeedAsReaded(t *testing.T) {
 		t.Error(fmt.Sprintf("Set rss feed as readed: expected 1, but it was %s instead", feed.Unreaded))
 	}
 
-	item ,err := (&postgres.RssFeedRepository{}).GetRssItemById(itemId)
+	item, err := (&postgres.RssFeedRepository{}).GetRssItemById(itemId)
 	if err != nil {
 		t.Error("Set rss feed as readed: something was broken")
 	}
@@ -267,7 +268,7 @@ func TestSetRssFeedAsReaded(t *testing.T) {
 
 	(&postgres.RssFeedRepository{}).SetRssFeedAsReaded(feedId)
 
-	item ,err = (&postgres.RssFeedRepository{}).GetRssItemById(itemId)
+	item, err = (&postgres.RssFeedRepository{}).GetRssItemById(itemId)
 	if err != nil {
 		t.Error("Set rss feed as readed: something was broken")
 	}
@@ -285,4 +286,3 @@ func TestSetRssFeedAsReaded(t *testing.T) {
 		t.Error(fmt.Sprintf("Set rss feed as readed: expected 0, but it was %s instead", feed.Unreaded))
 	}
 }
-

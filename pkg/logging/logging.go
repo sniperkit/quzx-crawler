@@ -1,17 +1,16 @@
 package logging
 
 import (
+	"fmt"
 	"log"
+	"os"
 	"time"
 
-	"fmt"
-	"os"
-
-	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"github.com/jmoiron/sqlx"
+	"github.com/sniperkit/quzx-crawler/pkg/quzx-crawler"
 )
 
-type PostgreLog struct {}
+type PostgreLog struct{}
 
 var db *sqlx.DB
 

@@ -1,13 +1,13 @@
 package services
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 	"time"
 
-	"github.com/demas/cowl-go/pkg/logging"
-	"github.com/demas/cowl-go/pkg/quzxutil"
-	"fmt"
+	"github.com/sniperkit/quzx-crawler/pkg/logging"
+	"github.com/sniperkit/quzx-crawler/pkg/quzxutil"
 )
 
 func doEvery(d time.Duration, f func()) {

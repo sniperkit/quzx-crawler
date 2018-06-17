@@ -3,14 +3,15 @@ package main
 // go get github.com/alexflint/go-arg
 
 import (
-	_ "github.com/lib/pq"
-
-	//"github.com/demas/cowl-go/pkg/services"
 	"flag"
 	"fmt"
 	"os"
-	"github.com/demas/cowl-go/pkg/services"
-	"github.com/demas/cowl-go/pkg/rest-api"
+
+	_ "github.com/lib/pq"
+
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api"
+	"github.com/sniperkit/quzx-crawler/pkg/services"
+	//"github.com/sniperkit/quzx-crawler/pkg/services"
 )
 
 func main() {

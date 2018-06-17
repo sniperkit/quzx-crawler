@@ -2,8 +2,9 @@ package postgres
 
 import (
 	"log"
-	"github.com/demas/cowl-go/pkg/postgres"
-	"github.com/demas/cowl-go/pkg/rest-api/quzx"
+
+	"github.com/sniperkit/quzx-crawler/pkg/postgres"
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/quzx"
 )
 
 // represent a PostgreSQL implementation of quzx.TagsService

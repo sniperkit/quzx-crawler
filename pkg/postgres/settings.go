@@ -3,8 +3,8 @@ package postgres
 import (
 	"fmt"
 
-	"github.com/demas/cowl-go/pkg/quzx-crawler"
-	"github.com/demas/cowl-go/pkg/logging"
+	"github.com/sniperkit/quzx-crawler/pkg/logging"
+	"github.com/sniperkit/quzx-crawler/pkg/quzx-crawler"
 )
 
 // represent a PostgreSQL implementation of quzx_crawler.SettingsRepository

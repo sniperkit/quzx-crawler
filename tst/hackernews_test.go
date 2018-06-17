@@ -1,10 +1,11 @@
 package tst
 
 import (
-	"testing"
 	"fmt"
-	"github.com/demas/cowl-go/pkg/quzx-crawler"
-	"github.com/demas/cowl-go/pkg/postgres"
+	"testing"
+
+	"github.com/sniperkit/quzx-crawler/pkg/postgres"
+	"github.com/sniperkit/quzx-crawler/pkg/quzx-crawler"
 )
 
 const NEWS_ID = 999
@@ -17,15 +18,15 @@ func deleteAllHackerNews() {
 func insertHackerNews() {
 
 	hn := quzx_crawler.HackerNews{
-		Id:NEWS_ID,
-		By:"by_demas",
-		Score:20,
-		Time:NEWS_TIME,
-		Title:"some_title",
-		Type:"some_type",
-		Url:"www.yandex.ru",
-		Readed:0,
-		Favorite:0 }
+		Id:       NEWS_ID,
+		By:       "by_demas",
+		Score:    20,
+		Time:     NEWS_TIME,
+		Title:    "some_title",
+		Type:     "some_type",
+		Url:      "www.yandex.ru",
+		Readed:   0,
+		Favorite: 0}
 
 	(&postgres.HackerNewsRepository{}).InsertNews(hn)
 }
@@ -35,7 +36,7 @@ func TestInsertHackerNews(t *testing.T) {
 	deleteAllHackerNews()
 	insertHackerNews()
 
-	value:= (&postgres.HackerNewsRepository{}).NewsExists(NEWS_ID)
+	value := (&postgres.HackerNewsRepository{}).NewsExists(NEWS_ID)
 	if value != true {
 		t.Error(fmt.Sprintf("Expected value of 'true', but it was %s instead", value))
 	}
@@ -46,7 +47,7 @@ func TestCheckThatHackerNewsExists(t *testing.T) {
 	deleteAllHackerNews()
 	insertHackerNews()
 
-	value:= (&postgres.HackerNewsRepository{}).NewsExists(NEWS_ID)
+	value := (&postgres.HackerNewsRepository{}).NewsExists(NEWS_ID)
 	if value != true {
 		t.Error(fmt.Sprintf("Expected value of 'true', but it was %s instead", value))
 	}
@@ -138,7 +139,3 @@ func TestAllHAckerNewsAsReaded(t *testing.T) {
 		t.Error("Set hacker news as readed from time: incorrect value")
 	}
 }
-
-
-
-

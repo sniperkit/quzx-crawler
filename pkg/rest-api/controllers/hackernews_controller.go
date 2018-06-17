@@ -1,9 +1,10 @@
 package controllers
 
 import (
-	"github.com/demas/cowl-go/pkg/postgres"
-	"net/http"
 	"encoding/json"
+	"net/http"
+
+	"github.com/sniperkit/quzx-crawler/pkg/postgres"
 )
 
 func GetUnreadedHackerNews(w http.ResponseWriter, r *http.Request) (interface{}, error) {
@@ -11,7 +12,7 @@ func GetUnreadedHackerNews(w http.ResponseWriter, r *http.Request) (interface{},
 	return (&postgres.HackerNewsRepository{}).GetUnreadedHackerNews()
 }
 
-func SetHackerNewsAsReaded (w http.ResponseWriter, r *http.Request) (interface{}, error) {
+func SetHackerNewsAsReaded(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 
 	bodyData := new(PostData)
 	err := json.NewDecoder(r.Body).Decode(&bodyData)
@@ -22,7 +23,7 @@ func SetHackerNewsAsReaded (w http.ResponseWriter, r *http.Request) (interface{}
 	return bodyData, err
 }
 
-func SetHackerNewsAsReadedFromTime (w http.ResponseWriter, r *http.Request) (interface{}, error) {
+func SetHackerNewsAsReadedFromTime(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 
 	type SetHackerNewsAsReadedFromTimeStruct struct {
 		FromTime int64 `json:"fromTime"`
@@ -37,7 +38,7 @@ func SetHackerNewsAsReadedFromTime (w http.ResponseWriter, r *http.Request) (int
 	return bodyData, err
 }
 
-func SetAllHackerNewsAsReaded (w http.ResponseWriter, r *http.Request) (interface{}, error) {
+func SetAllHackerNewsAsReaded(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 
 	(&postgres.HackerNewsRepository{}).SetAllHackerNewsAsReaded()
 	return ResultOk{"ok"}, nil

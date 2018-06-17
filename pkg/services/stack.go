@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/demas/cowl-go/pkg/logging"
-	"github.com/demas/cowl-go/pkg/postgres"
-	"github.com/demas/cowl-go/pkg/quzx-crawler"
+	"github.com/sniperkit/quzx-crawler/pkg/logging"
+	"github.com/sniperkit/quzx-crawler/pkg/postgres"
+	"github.com/sniperkit/quzx-crawler/pkg/quzx-crawler"
 )
 
 // represent an implementation of quzx_crawler.StackOverflowService
@@ -85,7 +85,7 @@ func (s *StackOverflowService) getVotedQuestions() []quzx_crawler.SOQuestion {
 	fromTime = time.Now().Add(-24 * time.Hour * 3).Unix()
 	logging.PostgreLog{}.LogInfo("=== fetch voted messages")
 
-	for page := 1; page <= 10; page ++ {
+	for page := 1; page <= 10; page++ {
 
 		url := fmt.Sprintf(votesUrl, page, fromTime, s.key())
 		logging.PostgreLog{}.LogInfo("(v) " + url)

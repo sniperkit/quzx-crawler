@@ -3,9 +3,10 @@ package services
 import (
 	"log"
 
-	"github.com/demas/cowl-go/pkg/postgres"
-	"github.com/demas/cowl-go/pkg/rest-api/quzx"
 	"github.com/gilliek/go-opml/opml"
+
+	"github.com/sniperkit/quzx-crawler/pkg/postgres"
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/quzx"
 )
 
 func insertRssFeed(url string) {

@@ -1,10 +1,11 @@
 package services
 
 import (
-	"github.com/demas/cowl-go/pkg/postgres"
 	"encoding/json"
-	"log"
 	"io/ioutil"
+	"log"
+
+	"github.com/sniperkit/quzx-crawler/pkg/postgres"
 )
 
 func ExportRssFeeds(filename string) {

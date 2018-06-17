@@ -1,9 +1,10 @@
 package tst
 
 import (
-	"testing"
 	"fmt"
-	"github.com/demas/cowl-go/pkg/postgres"
+	"testing"
+
+	"github.com/sniperkit/quzx-crawler/pkg/postgres"
 )
 
 func TestGetValueFromSettings(t *testing.T) {
@@ -39,4 +40,3 @@ func TestSetDuplicateValueForSettings(t *testing.T) {
 		t.Error(fmt.Sprintf("Expected value of 'new_one_value', but it was %s instead", value))
 	}
 }
-

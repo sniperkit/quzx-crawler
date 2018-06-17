@@ -1,15 +1,16 @@
 package services
 
 import (
-	"fmt"
-	"net/http"
-	"io/ioutil"
-	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"encoding/json"
-	"github.com/demas/cowl-go/pkg/postgres"
-	"time"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 	"strconv"
-	"github.com/demas/cowl-go/pkg/logging"
+	"time"
+
+	"github.com/sniperkit/quzx-crawler/pkg/logging"
+	"github.com/sniperkit/quzx-crawler/pkg/postgres"
+	"github.com/sniperkit/quzx-crawler/pkg/quzx-crawler"
 )
 
 // represent an implementation of quzx_crawler.HackerNewsService
@@ -71,10 +72,10 @@ func (s *HackerNewsService) fetchNews(id int64) (*quzx_crawler.HackerNews, error
 
 func (s *HackerNewsService) Fetch() {
 
-	lastSyncTime := getLastSyncTime("lastHackerNewsSyncTime", int64(syncInterval.Seconds()) + 1)
+	lastSyncTime := getLastSyncTime("lastHackerNewsSyncTime", int64(syncInterval.Seconds())+1)
 	currentTime := time.Now().Unix()
 
-	if lastSyncTime + int64(syncInterval.Seconds()) > currentTime {
+	if lastSyncTime+int64(syncInterval.Seconds()) > currentTime {
 		return
 	}
 
@@ -95,5 +96,5 @@ func (s *HackerNewsService) Fetch() {
 		}
 	}
 
-	(&postgres.SettingsRepository{}).SetSettings("lastHackerNewsSyncTime",  strconv.FormatInt(currentTime, 10))
+	(&postgres.SettingsRepository{}).SetSettings("lastHackerNewsSyncTime", strconv.FormatInt(currentTime, 10))
 }

@@ -1,12 +1,13 @@
 package rest_api
 
 import (
-"github.com/gorilla/mux"
-"github.com/urfave/negroni"
-"github.com/rs/cors"
-"github.com/demas/cowl-go/pkg/rest-api/routers"
-"github.com/demas/cowl-go/pkg/rest-api/controllers"
-"github.com/demas/cowl-go/pkg/quzxutil"
+	"github.com/gorilla/mux"
+	"github.com/rs/cors"
+	"github.com/urfave/negroni"
+
+	"github.com/sniperkit/quzx-crawler/pkg/quzxutil"
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/controllers"
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/routers"
 )
 
 func Serve() {

@@ -1,20 +1,21 @@
 package controllers
 
 import (
-	"net/http"
 	"encoding/json"
-	"github.com/demas/cowl-go/pkg/rest-api/postgres"
-	"github.com/demas/cowl-go/pkg/rest-api/quzx"
+	"net/http"
+
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/postgres"
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/quzx"
 )
 
 /*	{
-		"id": 5,
-		"url": "1",
-		"title":"title",
-		"description":"description",
-		"readitlater": 1,
-		"tags": ["one", "two"]
-	} */
+	"id": 5,
+	"url": "1",
+	"title":"title",
+	"description":"description",
+	"readitlater": 1,
+	"tags": ["one", "two"]
+} */
 
 func PostBookmark(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 

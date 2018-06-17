@@ -1,12 +1,12 @@
 package services
 
-
 import (
-	"github.com/ChimeraCoder/anaconda"
-	"net/url"
 	"log"
+	"net/url"
 
-	"github.com/demas/cowl-go/pkg/quzxutil"
+	"github.com/ChimeraCoder/anaconda"
+
+	"github.com/sniperkit/quzx-crawler/pkg/quzxutil"
 )
 
 type TwitterService struct {

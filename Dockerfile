@@ -1,10 +1,10 @@
 FROM golang
 
-ADD . /go/src/github.com/demas/cowl-go
+ADD . /go/src/github.com/sniperkit/quzx-crawler
 
-RUN go get github.com/demas/cowl-go
+RUN go get github.com/sniperkit/quzx-crawler
 
-RUN go install github.com/demas/cowl-go
+RUN go install github.com/sniperkit/quzx-crawler
 
 ENTRYPOINT ["/go/bin/cowl-go"]
 

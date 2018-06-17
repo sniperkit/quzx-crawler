@@ -1,8 +1,9 @@
 package postgres
 
-import "log"
 import (
-	"github.com/demas/cowl-go/pkg/rest-api/quzx"
+	"log"
+
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/quzx"
 )
 
 // represent a PostgreSQL implementation of quzx.StackService

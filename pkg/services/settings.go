@@ -1,12 +1,13 @@
 package services
 
 import (
-	"time"
 	"strconv"
-	"github.com/demas/cowl-go/pkg/postgres"
+	"time"
+
+	"github.com/sniperkit/quzx-crawler/pkg/postgres"
 )
 
-func getLastSyncTime(key string, timeOffset int64) (int64) {
+func getLastSyncTime(key string, timeOffset int64) int64 {
 
 	lastSyncTimeStr := (&postgres.SettingsRepository{}).GetSettings(key)
 	if lastSyncTimeStr == "" {
@@ -20,5 +21,3 @@ func getLastSyncTime(key string, timeOffset int64) (int64) {
 
 	return result
 }
-
-

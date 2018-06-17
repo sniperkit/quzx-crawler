@@ -1,13 +1,13 @@
 package services
 
 import (
-	"github.com/SlyMarbo/rss"
-	"github.com/demas/cowl-go/pkg/postgres"
-
 	"net/http"
 	"time"
 
-	"github.com/demas/cowl-go/pkg/logging"
+	"github.com/SlyMarbo/rss"
+
+	"github.com/sniperkit/quzx-crawler/pkg/logging"
+	"github.com/sniperkit/quzx-crawler/pkg/postgres"
 )
 
 // represent an implementation of quzx_crawler.RssFeedService

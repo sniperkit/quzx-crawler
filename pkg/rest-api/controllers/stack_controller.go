@@ -1,11 +1,13 @@
 package controllers
 
 import (
-	"net/http"
-	"github.com/gorilla/mux"
-	"github.com/demas/cowl-go/pkg/rest-api/postgres"
-	pg "github.com/demas/cowl-go/pkg/postgres"
 	"encoding/json"
+	"net/http"
+
+	"github.com/gorilla/mux"
+
+	pg "github.com/sniperkit/quzx-crawler/pkg/postgres"
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/postgres"
 )
 
 func GetStackTags(w http.ResponseWriter, r *http.Request) (interface{}, error) {
@@ -26,10 +28,10 @@ func GetStackQuestionsByClassification(w http.ResponseWriter, r *http.Request) (
 func GetStackQuestionsByClassificationAndDetails(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 
 	return (&postgres.StackService{}).GetStackQuestionsByClassificationAndDetails(mux.Vars(r)["classification"],
-										      mux.Vars(r)["details"])
+		mux.Vars(r)["details"])
 }
 
-func SetStackQuestionAsReaded (w http.ResponseWriter, r *http.Request) (interface{}, error) {
+func SetStackQuestionAsReaded(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 
 	type SetStackQuestionAsReadedStruct struct {
 		QuestionId int `json:"questionid"`
@@ -44,7 +46,7 @@ func SetStackQuestionAsReaded (w http.ResponseWriter, r *http.Request) (interfac
 	return bodyData, err
 }
 
-func SetStackQuestionsAsReaded (w http.ResponseWriter, r *http.Request) (interface{}, error) {
+func SetStackQuestionsAsReaded(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 
 	bodyData := new(UniversalPostStruct)
 	err := json.NewDecoder(r.Body).Decode(&bodyData)
@@ -55,7 +57,7 @@ func SetStackQuestionsAsReaded (w http.ResponseWriter, r *http.Request) (interfa
 	return bodyData, err
 }
 
-func SetStackQuestionsAsReadedFromTime (w http.ResponseWriter, r *http.Request) (interface{}, error) {
+func SetStackQuestionsAsReadedFromTime(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 
 	bodyData := new(UniversalPostStruct)
 	err := json.NewDecoder(r.Body).Decode(&bodyData)
@@ -65,4 +67,3 @@ func SetStackQuestionsAsReadedFromTime (w http.ResponseWriter, r *http.Request) 
 
 	return bodyData, err
 }
-

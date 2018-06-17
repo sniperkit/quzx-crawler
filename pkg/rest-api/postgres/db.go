@@ -1,13 +1,15 @@
 package postgres
 
 import (
-	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
-	"log"
 	"fmt"
-	"github.com/demas/cowl-go/pkg/quzxutil"
+	"log"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
+
+	"github.com/sniperkit/quzx-crawler/pkg/quzxutil"
 )
 
 var db *sqlx.DB

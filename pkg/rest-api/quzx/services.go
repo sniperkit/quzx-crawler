@@ -1,8 +1,9 @@
 package quzx
 
 import (
-	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"github.com/ChimeraCoder/anaconda"
+
+	"github.com/sniperkit/quzx-crawler/pkg/quzx-crawler"
 )
 
 type FeedService interface {

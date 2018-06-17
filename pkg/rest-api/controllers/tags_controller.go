@@ -1,11 +1,13 @@
 package controllers
 
 import (
-	"net/http"
-	"github.com/demas/cowl-go/pkg/rest-api/postgres"
 	"encoding/json"
-	"github.com/gorilla/mux"
+	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
+
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/postgres"
 )
 
 func GetTags(w http.ResponseWriter, r *http.Request) (interface{}, error) {
@@ -15,15 +17,15 @@ func GetTags(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 
 func GetTaggedItemsByTagId(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 
-	tagId, _ :=  strconv.Atoi(mux.Vars(r)["tagId"])
+	tagId, _ := strconv.Atoi(mux.Vars(r)["tagId"])
 	return (&postgres.TagsService{}).GetTaggedItemsByTagId(tagId)
 }
 
-func InsertTaggedItem (w http.ResponseWriter, r *http.Request) (interface{}, error) {
+func InsertTaggedItem(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 
 	type SetTaggedItemStruct struct {
 		ItemId int `json:"itemId"`
-		TagId int `json:"tagId"`
+		TagId  int `json:"tagId"`
 		Source int `json:"source"`
 	}
 
@@ -42,8 +44,7 @@ func InsertTaggedItem (w http.ResponseWriter, r *http.Request) (interface{}, err
 
 func DeleteTaggedItem(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 
-	id, _ :=  strconv.Atoi(mux.Vars(r)["id"])
+	id, _ := strconv.Atoi(mux.Vars(r)["id"])
 	(&postgres.TagsService{}).DeleteTaggedItem(id)
 	return ResultOk{"ok"}, nil
 }
-

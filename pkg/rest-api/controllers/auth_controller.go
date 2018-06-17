@@ -1,14 +1,16 @@
 package controllers
 
 import (
-	"github.com/dgrijalva/jwt-go"
-	"time"
+	"encoding/json"
 	"log"
 	"net/http"
-	"encoding/json"
-	"github.com/demas/cowl-go/pkg/quzxutil"
 	"os"
-	"github.com/demas/cowl-go/pkg/rest-api/quzx"
+	"time"
+
+	"github.com/dgrijalva/jwt-go"
+
+	"github.com/sniperkit/quzx-crawler/pkg/quzxutil"
+	"github.com/sniperkit/quzx-crawler/pkg/rest-api/quzx"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {

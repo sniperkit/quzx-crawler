@@ -1,8 +1,9 @@
 package services
 
 import (
-	"github.com/demas/cowl-go/pkg/quzx-crawler"
 	"fmt"
+
+	"github.com/sniperkit/quzx-crawler/pkg/quzx-crawler"
 )
 
 var stop_tags = []string{"php", "django", "cuda", "ionic2", "ionic-framework", "cordova", "wordpress", "laravel", "winforms", "mysql", "forms", "unity3d",
@@ -33,82 +34,82 @@ var stop_tags = []string{"php", "django", "cuda", "ionic2", "ionic-framework", "
 	"bacon.js", "thymeleaf", "zebble", "gatt", "docusign", "signalr-hub", "aleagpu", "google-api", "paypal-ipn", "pdfsharp", "yii2", "qweb",
 	"dojo", "ms-word", "tampermonkey", "jira", "sapui5", "jszip", "google-form", "jqgrid", "deployd", "sinatra", "mediaelement.js", "jwplayer",
 	"ckeditor", "accordion", "masonry", "shopify", "google-drive-sdk", "whatsapp", "slick.js", "tinymce", "skulpt", "ormlite-servicestack",
-	"postgis", "pgadmin-4", "pgadmin", "eclipselink", "oozie", "ibm-bluemix", "битрикс" }
+	"postgis", "pgadmin-4", "pgadmin", "eclipselink", "oozie", "ibm-bluemix", "битрикс"}
 
 type flr struct {
-	Site string
+	Site    string
 	Include string
-	Result string
+	Result  string
 }
 
-var firstLevelRules = []flr	{
-		{"superuser", "*", "superuser"},
-		{"serverfault", "*", "administration"},
-		{"unix", "*", "unix"},
-		{"ru.stackoverflow", "*", "russian"},
-		{"security", "*", "information security"},
-		{ "codereview", "*", "code review" },
-		{ "softwareengineering" ,"unit-testing" ,"unit-testing" },
-		{ "softwareengineering" ,"design" ,"software-desing" },
-		{ "stackoverflow" ,"elasticsearch" ,"bigdata" },
-		{ "stackoverflow" ,"cassandra" ,"bigdata" },
-		{ "stackoverflow" ,"apache-kafka" ,"bigdata" },
-		{ "stackoverflow" ,"rabbitmq" ,"bigdata" },
-		{ "stackoverflow" ,"iis" ,"devops" },
-		{ "stackoverflow" ,"nginx" ,"devops" },
-		{ "stackoverflow" ,"unit-testing" ,"unit-testing" },
-		{ "stackoverflow" ,"machine-learning" ,"machine-learning" },
-		{ "stackoverflow" ,"go" ,"go" },
-		{ "stackoverflow" ,"azure" ,"azure" },
-		{ "stackoverflow" ,"f#" ,"fsharp" },
-		{ "stackoverflow" ,"postgresql" ,"postgresql" },
-		{ "stackoverflow" ,"mongodb" ,"mongodb" },
-		{ "stackoverflow" ,"clojure" ,"clojure" },
-		{ "stackoverflow" ,"angular" ,"angular2" },
-		{ "stackoverflow" ,"angular2" ,"angular2" },
-		{ "stackoverflow" ,"angular4" ,"angular2" },
-		{ "stackoverflow" ,"angular5" ,"angular2" },
-		{ "stackoverflow" ,"git" ,"git" },
-		{ "stackoverflow" ,"docker" ,"docker" },
-		{ "stackoverflow" ,"rust" ,"rust" },
-		{ "stackoverflow" ,"scala" ,"scala" },
-		{ "stackoverflow" ,"sql-server" ,"ms sql server" },
-		{ "stackoverflow" ,"oracle" ,"oracle" },
-		{ "stackoverflow" ,"powershell" ,"powershell" },
-		{ "stackoverflow" ,"xamarin" ,"xamarin" },
-		{ "stackoverflow" ,"xamarin.forms" ,"xamarin" },
-		{ "stackoverflow" ,"xamarin.ios" ,"xamarin" },
-		{ "stackoverflow" ,"c#" ,".net" },
-		{ "stackoverflow" ,".net" ,".net" },
-		{ "stackoverflow" ,"svg" ,"web" },
-		{ "stackoverflow" ,"twitter-bootstrap" ,"web" },
-		{ "stackoverflow" ,"android" ,"android" },
-		{ "stackoverflow" ,"gulp" ,"js" },
-		{ "stackoverflow" ,"mocha" ,"js" },
-		{ "stackoverflow" ,"chai" ,"js" },
-		{ "stackoverflow" ,"webpack" ,"js" },
-		{ "stackoverflow" ,"eslint" ,"js" },
-		{ "stackoverflow" ,"react" ,"js" },
-		{ "stackoverflow" ,"redux" ,"js" },
-		{ "stackoverflow" ,"google-chrome-extension" ,"js" },
-		{ "stackoverflow" ,"typescript" ,"typescript" },
-		{ "stackoverflow" ,"node.js" ,"node.js" },
-		{ "stackoverflow" ,"javascript" ,"js" },
-		{ "stackoverflow" ,"bash" ,"bash" },
-		{ "stackoverflow" ,"r" ,"r lang" },
-	    { "stackoverflow" ,"spring" ,"java" },
-		{ "stackoverflow" ,"java" ,"java" },
-		{ "stackoverflow" ,"python" ,"python" },
-		{ "stackoverflow" ,"haskell" ,"haskell" },
-		{ "stackoverflow" ,"ios" ,"ios" },
-		{ "stackoverflow" ,"swift" ,"ios" },
-	}
+var firstLevelRules = []flr{
+	{"superuser", "*", "superuser"},
+	{"serverfault", "*", "administration"},
+	{"unix", "*", "unix"},
+	{"ru.stackoverflow", "*", "russian"},
+	{"security", "*", "information security"},
+	{"codereview", "*", "code review"},
+	{"softwareengineering", "unit-testing", "unit-testing"},
+	{"softwareengineering", "design", "software-desing"},
+	{"stackoverflow", "elasticsearch", "bigdata"},
+	{"stackoverflow", "cassandra", "bigdata"},
+	{"stackoverflow", "apache-kafka", "bigdata"},
+	{"stackoverflow", "rabbitmq", "bigdata"},
+	{"stackoverflow", "iis", "devops"},
+	{"stackoverflow", "nginx", "devops"},
+	{"stackoverflow", "unit-testing", "unit-testing"},
+	{"stackoverflow", "machine-learning", "machine-learning"},
+	{"stackoverflow", "go", "go"},
+	{"stackoverflow", "azure", "azure"},
+	{"stackoverflow", "f#", "fsharp"},
+	{"stackoverflow", "postgresql", "postgresql"},
+	{"stackoverflow", "mongodb", "mongodb"},
+	{"stackoverflow", "clojure", "clojure"},
+	{"stackoverflow", "angular", "angular2"},
+	{"stackoverflow", "angular2", "angular2"},
+	{"stackoverflow", "angular4", "angular2"},
+	{"stackoverflow", "angular5", "angular2"},
+	{"stackoverflow", "git", "git"},
+	{"stackoverflow", "docker", "docker"},
+	{"stackoverflow", "rust", "rust"},
+	{"stackoverflow", "scala", "scala"},
+	{"stackoverflow", "sql-server", "ms sql server"},
+	{"stackoverflow", "oracle", "oracle"},
+	{"stackoverflow", "powershell", "powershell"},
+	{"stackoverflow", "xamarin", "xamarin"},
+	{"stackoverflow", "xamarin.forms", "xamarin"},
+	{"stackoverflow", "xamarin.ios", "xamarin"},
+	{"stackoverflow", "c#", ".net"},
+	{"stackoverflow", ".net", ".net"},
+	{"stackoverflow", "svg", "web"},
+	{"stackoverflow", "twitter-bootstrap", "web"},
+	{"stackoverflow", "android", "android"},
+	{"stackoverflow", "gulp", "js"},
+	{"stackoverflow", "mocha", "js"},
+	{"stackoverflow", "chai", "js"},
+	{"stackoverflow", "webpack", "js"},
+	{"stackoverflow", "eslint", "js"},
+	{"stackoverflow", "react", "js"},
+	{"stackoverflow", "redux", "js"},
+	{"stackoverflow", "google-chrome-extension", "js"},
+	{"stackoverflow", "typescript", "typescript"},
+	{"stackoverflow", "node.js", "node.js"},
+	{"stackoverflow", "javascript", "js"},
+	{"stackoverflow", "bash", "bash"},
+	{"stackoverflow", "r", "r lang"},
+	{"stackoverflow", "spring", "java"},
+	{"stackoverflow", "java", "java"},
+	{"stackoverflow", "python", "python"},
+	{"stackoverflow", "haskell", "haskell"},
+	{"stackoverflow", "ios", "ios"},
+	{"stackoverflow", "swift", "ios"},
+}
 
 type slr struct {
-	Site string
-	First string
+	Site    string
+	First   string
 	Include string
-	Result string
+	Result  string
 }
 
 var secondLevelRules = []slr{
@@ -281,12 +282,12 @@ var secondLevelRules = []slr{
 	{"stackoverflow", "git", "rebase", "rebase"},
 	{"stackoverflow", "git", "gitlab", "gitlab"},
 	{"stackoverflow", "git", "github", "github"},
-	{"stackoverflow" ,"machine-learning" ,"tensorflow", "tensorflow" },
-	{"stackoverflow" ,"machine-learning" ,"ntlk", "ntlk" },
-	{"stackoverflow" ,"machine-learning" ,"scikit-learn", "scikit" },
-	{"stackoverflow" ,"machine-learning" ,"neural-network", "neural-network" },
-	{"stackoverflow" ,"machine-learning" ,"deep-learning", "deep-learning" },
-	{"stackoverflow" ,"machine-learning" ,"nlp", "nlp" },
+	{"stackoverflow", "machine-learning", "tensorflow", "tensorflow"},
+	{"stackoverflow", "machine-learning", "ntlk", "ntlk"},
+	{"stackoverflow", "machine-learning", "scikit-learn", "scikit"},
+	{"stackoverflow", "machine-learning", "neural-network", "neural-network"},
+	{"stackoverflow", "machine-learning", "deep-learning", "deep-learning"},
+	{"stackoverflow", "machine-learning", "nlp", "nlp"},
 	{"stackoverflow", "docker", "docker-swarm", "swarm"},
 	{"stackoverflow", "docker", "swarm", "swarm"},
 	{"stackoverflow", "docker", "kubernetes", "kubernetes"},
@@ -329,7 +330,7 @@ var secondLevelRules = []slr{
 }
 
 // Check tag existence in the question
-func containTag(q quzx_crawler.SOQuestion, tag string) (bool) {
+func containTag(q quzx_crawler.SOQuestion, tag string) bool {
 
 	for _, question_tag := range q.Tags {
 		if question_tag == tag {
@@ -352,7 +353,7 @@ func containStopTag(q quzx_crawler.SOQuestion) (bool, string) {
 	return false, ""
 }
 
-func firstLevelClassification(q quzx_crawler.SOQuestion, site string) (string) {
+func firstLevelClassification(q quzx_crawler.SOQuestion, site string) string {
 
 	for _, flr := range firstLevelRules {
 
@@ -369,11 +370,11 @@ func firstLevelClassification(q quzx_crawler.SOQuestion, site string) (string) {
 	return ""
 }
 
-func secondLevelClassification(q quzx_crawler.SOQuestion, site string, first string) (string) {
+func secondLevelClassification(q quzx_crawler.SOQuestion, site string, first string) string {
 
 	for _, slr := range secondLevelRules {
 
-		if (slr.Site == site)  && (slr.First == first) && containTag(q, slr.Include) {
+		if (slr.Site == site) && (slr.First == first) && containTag(q, slr.Include) {
 			return slr.Result
 		}
 	}
@@ -381,7 +382,7 @@ func secondLevelClassification(q quzx_crawler.SOQuestion, site string, first str
 	return "general"
 }
 
-func Classify(q quzx_crawler.SOQuestion, site string) (quzx_crawler.SOQuestion) {
+func Classify(q quzx_crawler.SOQuestion, site string) quzx_crawler.SOQuestion {
 
 	contain_stop_tag, stop_tag := containStopTag(q)
 	if contain_stop_tag {

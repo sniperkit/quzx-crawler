@@ -1,6 +1,8 @@
 package logging
 
-import "github.com/demas/cowl-go/pkg/quzx-crawler"
+import (
+	"github.com/sniperkit/quzx-crawler/pkg/quzx-crawler"
+)
 
 type LogInterface interface {
 	InsertLogMessage(message quzx_crawler.LogMessage)

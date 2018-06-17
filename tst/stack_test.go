@@ -1,13 +1,12 @@
 package tst
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
-	"fmt"
-
-	"github.com/demas/cowl-go/pkg/postgres"
-	"github.com/demas/cowl-go/pkg/quzx-crawler"
+	"github.com/sniperkit/quzx-crawler/pkg/postgres"
+	"github.com/sniperkit/quzx-crawler/pkg/quzx-crawler"
 )
 
 const LINK = "link"
